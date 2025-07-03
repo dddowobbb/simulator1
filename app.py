@@ -63,6 +63,15 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+/* ✅ selectbox 내부 텍스트는 검정색 */
+.stSelectbox div[data-baseweb="select"] * {
+    color: #000000 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # 말풍선 대사 설정
 def get_step1_speech():
     if not st.session_state.industry_confirmed:
