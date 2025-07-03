@@ -72,10 +72,10 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 모든 기본 버튼 텍스트를 검정색으로
+# ✅ 모든 버튼 텍스트를 검정색으로 (가장 안정적인 방식)
 st.markdown("""
 <style>
-button[data-testid="baseButton"] {
+button span {
     color: #000000 !important;
     font-weight: bold;
 }
