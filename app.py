@@ -81,10 +81,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 버튼 텍스트를 검정색으로!
+
+# ✅ 버튼 텍스트를 검정색으로 (버튼 내부 <p> 태그 대상)
 st.markdown("""
 <style>
-button div span {
+button p {
     color: #000000 !important;
     font-weight: bold;
 }
