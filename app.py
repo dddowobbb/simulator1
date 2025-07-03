@@ -132,118 +132,100 @@ elif st.session_state.step == 2:
 import streamlit as st
 import random
 
-# ✅ Step 3 세션 상태 초기화
-if "step" not in st.session_state:
-    st.session_state.step = 3
-if "score" not in st.session_state:
-    st.session_state.score = 0
-if "history" not in st.session_state:
-    st.session_state.history = []
-
-# ✅ Step 3 화면: 돌발 이벤트 발생
+# Step 3 시작
 if st.session_state.step == 3:
 
-    # 최적 전략 매핑
-    effective_strategies = {
-        "⚠️ 대규모 고객 정보 유출": "보안 시스템 전면 재구축",
-        "📈 갑작스러운 수요 폭증": "생산 라인 증설",
-        "💸 원자재 가격 급등": "공급처 다변화",
-        "🔥 경쟁사 파산": "인재 채용 강화",
-        "🏆 글로벌 시장 진출 기회": "현지화 전략"
-    }
-
-    # 랜덤 상황 선택
-    situation, options = random.choice([
-        ("⚠️ 대규모 고객 정보 유출", ["보안 시스템 전면 재구축", "사과문 발표", "내부 책임자 교체", "조용히 넘어감", "보험 청구"]),
-        ("📈 갑작스러운 수요 폭증", ["생산 라인 증설", "가격 인상", "예약 판매", "품절 마케팅", "신규 고용"]),
-        ("💸 원자재 가격 급등", ["공급처 다변화", "생산 중단", "재고 우선 소비", "소비자 가격 인상", "대체 원료 탐색"]),
-        ("🔥 경쟁사 파산", ["인재 채용 강화", "시장 점유율 확대", "해당 기업 인수", "광고 강화", "신제품 발표"]),
-        ("🏆 글로벌 시장 진출 기회", ["현지화 전략", "글로벌 광고 캠페인", "온라인 직판", "외국 파트너와 제휴", "해외 공장 설립"])
-    ])
-
-    # ✅ 스타일
-    st.markdown("""
+    # 👉 배경 + 말풍선 UI
+    st.markdown(f"""
     <style>
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
-        background-color: #1a1a1a !important;
-        color: #ffffff !important;
-    }
-    h1, h2, h3, h4, h5, h6, label, p, span, div {
-        color: #ffffff !important;
-    }
-    .stSelectbox div[data-baseweb="select"] * {
-        color: #000000 !important;
-    }
-    button p {
-        color: #000000 !important;
-        font-weight: bold;
-    }
-    .container {
+    .container {{
         position: relative;
         width: 100%;
         height: 100vh;
         overflow: hidden;
         margin: 0;
         padding: 0;
-    }
-    .bg-image {
+        background-color: #1a1a1a;
+    }}
+    .bg-image {{
         position: absolute;
         top: 0; left: 0;
         width: 100%;
         height: 100vh;
         object-fit: cover;
         z-index: 0;
-    }
-    .speech-bubble {
+    }}
+    .speech-bubble {{
         position: absolute;
         bottom: 8vh;
         left: 50%;
         transform: translateX(-50%);
         width: 90%;
         max-width: 500px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(30, 30, 30, 0.8);
         padding: 20px 25px;
         border-radius: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         text-align: center;
         z-index: 1;
-        backdrop-filter: blur(8px);
-    }
-    .speech-title {
+        backdrop-filter: blur(6px);
+    }}
+    .speech-title {{
         font-size: 1.4rem;
         font-weight: bold;
         color: #ffffff;
-    }
-    .speech-sub {
+    }}
+    .speech-sub {{
         margin-top: 10px;
         font-size: 1rem;
         color: #f0f0f0;
-    }
+    }}
     </style>
+
+    <div class="container">
+        <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png" />
+        <div class="speech-bubble">
+            <div class="speech-title">“예기치 못한 사건 발생!”</div>
+            <div class="speech-sub">상황에 적절한 전략을 선택해 회사를 지켜내자.</div>
+        </div>
+    </div>
     """, unsafe_allow_html=True)
 
-    # ✅ 말풍선 + 배경 이미지 출력
-    st.markdown(f"""
-<div class="container">
-    <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png" />
-    <div class="speech-bubble">
-        <div class="speech-title">“예기치 못한 사건 발생!”</div>
-        <div class="speech-sub">상황에 적절한 전략을 선택해 회사를 지켜내자.</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+    # 👉 시나리오 및 전략
+    situations = {
+        "⚠️ 대규모 고객 데이터 유출 발생": ["보안 시스템 전면 재구축", "PR 대응", "사과문 발표", "외부 컨설턴트 투입", "서비스 일시 중단"],
+        "📈 갑작스러운 수요 폭증": ["생산 라인 확장", "기술 투자", "임시 고용 확대", "외주 활용", "품질 단가 조정"],
+        "💸 원자재 가격 급등": ["공급처 다변화", "대체 소재 도입", "장기 계약", "수입 조정", "원가 절감"],
+        "🔥 경쟁사 파산": ["인재 채용 강화", "기술 인수", "시장 확대", "기술 유출 방지", "법적 검토"],
+        "📉 주요 제품 매출 급감": ["제품 리뉴얼", "광고 캠페인", "신제품 출시", "할인 행사", "시장 조사"],
+        "🏆 대기업으로부터 투자 제안": ["지분 일부 매각", "전략적 제휴", "거절", "조건 재협상", "지분 공동 소유"],
+        "🌍 글로벌 시장 진출 기회": ["현지화 전략", "글로벌 광고 캠페인", "온라인 직판", "외국 파트너와 제휴", "해외 공장 설립"]
+    }
 
-    # ✅ 본문 영역
+    # 상황 무작위 선택 (최초 1회만)
+    if "situation" not in st.session_state:
+        st.session_state.situation, st.session_state.options = random.choice(list(situations.items()))
+
     st.markdown("### Step 3: 전략 선택")
-    st.markdown(f"#### 📍 상황: {situation}")
-    selected = st.radio("🧠 당신의 전략은?", options)
+    st.markdown(f"📍 **상황:** {st.session_state.situation}")
+    strategy = st.radio("🧠 당신의 전략은?", st.session_state.options)
+
+    # 적합한 전략 매핑
+    effective_strategies = {
+        "⚠️ 대규모 고객 데이터 유출 발생": "보안 시스템 전면 재구축",
+        "📈 갑작스러운 수요 폭증": "생산 라인 확장",
+        "💸 원자재 가격 급등": "공급처 다변화",
+        "🔥 경쟁사의 파산": "인재 채용 강화",
+        "📉 주요 제품 매출 급감": "제품 리뉴얼",
+        "🏆 대기업으로부터 투자 제안": "지분 일부 매각",
+        "🌍 글로벌 시장 진출 기회": "현지화 전략"
+    }
 
     if st.button("전략 확정"):
-        if selected == effective_strategies.get(situation):
+        st.session_state.selected_strategy = strategy
+        if strategy == effective_strategies.get(st.session_state.situation):
             st.session_state.score += 10
         else:
             st.session_state.score += 5
-
-        st.session_state.history.append((situation, selected))
-        st.session_state.step = 4
-        st.rerun()
+        st.session_state.step = 4  # 👉 다음 단계로 이동
+        st.rerun()  # 👉 화면 전환
