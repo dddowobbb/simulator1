@@ -48,8 +48,12 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
 .stSelectbox div[data-baseweb="select"] svg {
     fill: #000000 !important;
 }
-/* ✅ Step 1 selectbox 항목 글씨 검정색 처리 */
+/* Step 1 selectbox 항목 글씨 검정색 처리 */
 .css-1wa3eu0-placeholder, .css-1uccc91-singleValue {
+    color: #000000 !important;
+}
+/* 선택 항목 및 드롭다운 리스트 내부 텍스트도 검정색 */
+.css-1n76uvr, .css-11unzgr {
     color: #000000 !important;
 }
 
@@ -102,17 +106,6 @@ button p {
 </style>
 """, unsafe_allow_html=True)
 
-<style>
-/* ✅ 선택 항목 내부 텍스트(선택된 값) 검정색으로 */
-.css-1n76uvr {
-    color: #000000 !important;
-}
-/* ✅ 드롭다운 리스트 항목 텍스트 검정색으로 */
-.css-11unzgr {
-    color: #000000 !important;
-}
-</style>
-
 # ✅ 말풍선 생성 함수
 def show_speech(title, subtitle, bg_url):
     st.markdown(f"""
@@ -159,7 +152,6 @@ elif st.session_state.step == 1:
         if st.button("다음 ▶️"):
             st.session_state.step = 2
             st.rerun()
-
 
 # ✅ Step 2: 회사 이름 입력
 elif st.session_state.step == 2:
