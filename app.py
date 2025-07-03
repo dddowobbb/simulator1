@@ -72,15 +72,16 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 버튼 텍스트만 검정색
+# ✅ 버튼 텍스트만 검정색 (버튼 내부 클래스 기준)
 st.markdown("""
 <style>
-button[kind="primary"] {
+button.css-1cpxqw2, button.css-1cpxqw2:hover {
     color: #000000 !important;
     font-weight: bold;
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # 말풍선 대사 설정
 def get_step1_speech():
