@@ -30,6 +30,11 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
 }
 .stSelectbox div[data-baseweb="select"] * {
     color: #000000 !important;
+    background-color: #ffffff !important;
+}
+.stSelectbox div[data-baseweb="select"] div[role="option"] {
+    color: #000000 !important;
+    background-color: #ffffff !important;
 }
 button p {
     color: #000000 !important;
@@ -79,6 +84,8 @@ button p {
 }
 </style>
 """, unsafe_allow_html=True)
+
+
 
 # ✅ 말풍선 생성 함수
 def show_speech(title, subtitle, bg_url):
