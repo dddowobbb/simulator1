@@ -102,6 +102,17 @@ button p {
 </style>
 """, unsafe_allow_html=True)
 
+<style>
+/* ✅ 선택 항목 내부 텍스트(선택된 값) 검정색으로 */
+.css-1n76uvr {
+    color: #000000 !important;
+}
+/* ✅ 드롭다운 리스트 항목 텍스트 검정색으로 */
+.css-11unzgr {
+    color: #000000 !important;
+}
+</style>
+
 # ✅ 말풍선 생성 함수
 def show_speech(title, subtitle, bg_url):
     st.markdown(f"""
