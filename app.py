@@ -1,4 +1,5 @@
 import streamlit as st
+import random
 
 # ✅ 세션 상태 초기화
 if "step" not in st.session_state:
@@ -9,6 +10,13 @@ if "industry_confirmed" not in st.session_state:
     st.session_state.industry_confirmed = False
 if "company_name" not in st.session_state:
     st.session_state.company_name = ""
+if "situation" not in st.session_state:
+    st.session_state.situation = ""
+    st.session_state.options = []
+if "selected_strategy" not in st.session_state:
+    st.session_state.selected_strategy = ""
+if "score" not in st.session_state:
+    st.session_state.score = 0
 
 # ✅ 스타일 (배경 + 글씨색 + selectbox + 버튼)
 st.markdown("""
@@ -73,13 +81,13 @@ button p {
 """, unsafe_allow_html=True)
 
 # ✅ 말풍선 생성 함수
-def show_speech(title, subtitle):
+def show_speech(title, subtitle, bg_url):
     st.markdown(f"""
-    <div class="container">
-        <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png" />
-        <div class="speech-bubble">
-            <div class="speech-title">{title}</div>
-            <div class="speech-sub">{subtitle}</div>
+    <div class=\"container\">
+        <img class=\"bg-image\" src=\"{bg_url}\" />
+        <div class=\"speech-bubble\">
+            <div class=\"speech-title\">{title}</div>
+            <div class=\"speech-sub\">{subtitle}</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -87,9 +95,9 @@ def show_speech(title, subtitle):
 # ✅ Step 1: 업종 선택
 if st.session_state.step == 1:
     if not st.session_state.industry_confirmed:
-        show_speech("“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”", "어떤 분야에서 승부할지, 네 선택을 보여줘.")
+        show_speech("“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”", "어떤 분야에서 승부할지, 네 선택을 보여줘.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     else:
-        show_speech(f"“{st.session_state.industry}... 흥미로운 선택이군.”", "다음 단계로 가볼까?")
+        show_speech(f"“{st.session_state.industry}... 흥미로운 선택이군.”", "다음 단계로 가볼까?", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
 
     st.markdown("### Step 1: 회사 분야 선택")
     industries = ["💻 IT 스타트업", "🌱 친환경 제품", "🎮 게임 개발사", "👗 패션 브랜드", "🍔 푸드테크", "🛒 글로벌 전자상거래"]
@@ -110,9 +118,9 @@ if st.session_state.step == 1:
 # ✅ Step 2: 회사 이름 입력
 elif st.session_state.step == 2:
     if not st.session_state.company_name:
-        show_speech("“이제 회사를 설립할 시간이야.”", "멋진 회사 이름을 지어보자!")
+        show_speech("“이제 회사를 설립할 시간이야.”", "멋진 회사 이름을 지어보자!", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     else:
-        show_speech(f"“{st.session_state.company_name}... 멋진 이름이군!”", "이제 다음 단계로 넘어가자.")
+        show_speech(f"“{st.session_state.company_name}... 멋진 이름이군!”", "이제 다음 단계로 넘어가자.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
 
     st.markdown("### Step 2: 회사 이름 입력")
     name_input = st.text_input("당신의 회사 이름은?", max_chars=20)
@@ -126,72 +134,12 @@ elif st.session_state.step == 2:
 
     if st.session_state.company_name and st.button("다음 ▶️"):
         st.session_state.step = 3
-        st.rerun
+        st.rerun()
 
+# ✅ Step 3: 전략 선택
+elif st.session_state.step == 3:
+    show_speech("“예기치 못한 사건 발생!”", "상황에 적절한 전략을 선택해 회사를 지켜내자.", "https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png")
 
-import streamlit as st
-import random
-
-# Step 3 시작
-if st.session_state.step == 3:
-
-    # 👉 배경 + 말풍선 UI
-    st.markdown(f"""
-    <style>
-    .container {{
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-        margin: 0;
-        padding: 0;
-        background-color: #1a1a1a;
-    }}
-    .bg-image {{
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%;
-        height: 100vh;
-        object-fit: cover;
-        z-index: 0;
-    }}
-    .speech-bubble {{
-        position: absolute;
-        bottom: 8vh;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 500px;
-        background: rgba(30, 30, 30, 0.8);
-        padding: 20px 25px;
-        border-radius: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        text-align: center;
-        z-index: 1;
-        backdrop-filter: blur(6px);
-    }}
-    .speech-title {{
-        font-size: 1.4rem;
-        font-weight: bold;
-        color: #ffffff;
-    }}
-    .speech-sub {{
-        margin-top: 10px;
-        font-size: 1rem;
-        color: #f0f0f0;
-    }}
-    </style>
-
-    <div class="container">
-        <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png" />
-        <div class="speech-bubble">
-            <div class="speech-title">“예기치 못한 사건 발생!”</div>
-            <div class="speech-sub">상황에 적절한 전략을 선택해 회사를 지켜내자.</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # 👉 시나리오 및 전략
     situations = {
         "⚠️ 대규모 고객 데이터 유출 발생": ["보안 시스템 전면 재구축", "PR 대응", "사과문 발표", "외부 컨설턴트 투입", "서비스 일시 중단"],
         "📈 갑작스러운 수요 폭증": ["생산 라인 확장", "기술 투자", "임시 고용 확대", "외주 활용", "품질 단가 조정"],
@@ -202,20 +150,18 @@ if st.session_state.step == 3:
         "🌍 글로벌 시장 진출 기회": ["현지화 전략", "글로벌 광고 캠페인", "온라인 직판", "외국 파트너와 제휴", "해외 공장 설립"]
     }
 
-    # 상황 무작위 선택 (최초 1회만)
-    if "situation" not in st.session_state:
+    if not st.session_state.situation:
         st.session_state.situation, st.session_state.options = random.choice(list(situations.items()))
 
     st.markdown("### Step 3: 전략 선택")
     st.markdown(f"📍 **상황:** {st.session_state.situation}")
     strategy = st.radio("🧠 당신의 전략은?", st.session_state.options)
 
-    # 적합한 전략 매핑
     effective_strategies = {
         "⚠️ 대규모 고객 데이터 유출 발생": "보안 시스템 전면 재구축",
         "📈 갑작스러운 수요 폭증": "생산 라인 확장",
         "💸 원자재 가격 급등": "공급처 다변화",
-        "🔥 경쟁사의 파산": "인재 채용 강화",
+        "🔥 경쟁사 파산": "인재 채용 강화",
         "📉 주요 제품 매출 급감": "제품 리뉴얼",
         "🏆 대기업으로부터 투자 제안": "지분 일부 매각",
         "🌍 글로벌 시장 진출 기회": "현지화 전략"
@@ -227,5 +173,5 @@ if st.session_state.step == 3:
             st.session_state.score += 10
         else:
             st.session_state.score += 5
-        st.session_state.step = 4  # 👉 다음 단계로 이동
-        st.rerun()  # 👉 화면 전환
+        st.session_state.step = 4
+        st.rerun()
