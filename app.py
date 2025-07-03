@@ -72,10 +72,10 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 버튼 텍스트만 검정색 (버튼 내부 클래스 기준)
+# ✅ 모든 기본 버튼 텍스트를 검정색으로
 st.markdown("""
 <style>
-button.css-1cpxqw2, button.css-1cpxqw2:hover {
+button[data-testid="baseButton"] {
     color: #000000 !important;
     font-weight: bold;
 }
