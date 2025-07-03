@@ -72,15 +72,25 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 모든 버튼 텍스트를 검정색으로 (가장 안정적인 방식)
+# ✅ selectbox 안쪽 텍스트 검정색
 st.markdown("""
 <style>
-button span {
+.stSelectbox div[data-baseweb="select"] * {
+    color: #000000 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ✅ 버튼 텍스트를 검정색으로!
+st.markdown("""
+<style>
+button div span {
     color: #000000 !important;
     font-weight: bold;
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # 말풍선 대사 설정
