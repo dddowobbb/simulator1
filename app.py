@@ -224,14 +224,14 @@ if st.session_state.step == 3:
 
     # ✅ 말풍선 + 배경 이미지 출력
     st.markdown(f"""
-    <div class="container">
-        <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/16-1/main/unexpected_event.png" />
-        <div class="speech-bubble">
-            <div class="speech-title">“예기치 못한 사건 발생!”</div>
-            <div class="speech-sub">상황에 적절한 전략을 선택해 회사를 지켜내자.</div>
-        </div>
+<div class="container">
+    <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png" />
+    <div class="speech-bubble">
+        <div class="speech-title">“예기치 못한 사건 발생!”</div>
+        <div class="speech-sub">상황에 적절한 전략을 선택해 회사를 지켜내자.</div>
     </div>
-    """, unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
 
     # ✅ 본문 영역
     st.markdown("### Step 3: 전략 선택")
