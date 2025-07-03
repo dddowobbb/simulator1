@@ -72,6 +72,16 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# ✅ 버튼 텍스트만 검정색
+st.markdown("""
+<style>
+button[kind="primary"] {
+    color: #000000 !important;
+    font-weight: bold;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # 말풍선 대사 설정
 def get_step1_speech():
     if not st.session_state.industry_confirmed:
