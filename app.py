@@ -32,9 +32,8 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
     background-color: #ffffff !important;
     color: #000000 !important;
 }
-.stSelectbox div[data-baseweb="select"] div[role="option"] {
+.stSelectbox div[data-baseweb="select"] * {
     color: #000000 !important;
-    background-color: #ffffff !important;
 }
 .stSelectbox div[data-baseweb="select"] input {
     color: #000000 !important;
