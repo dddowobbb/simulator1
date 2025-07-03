@@ -3,7 +3,7 @@ import random
 
 # ✅ 세션 상태 초기화
 if "step" not in st.session_state:
-    st.session_state.step = 1
+    st.session_state.step = 0  # 👈 시작 전 설명 단계 추가
 if "industry" not in st.session_state:
     st.session_state.industry = ""
 if "industry_confirmed" not in st.session_state:
@@ -91,6 +91,7 @@ def show_speech(title, subtitle, bg_url):
         </div>
     </div>
     """, unsafe_allow_html=True)
+
 # ✅ Step 0: 시작 안내
 if st.session_state.step == 0:
     show_speech("“환영합니다!”", "게임 플레이에 앞서 다크모드를 적용중이시라면 라이트모드로 전환해주시길 바랍니다.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
@@ -104,7 +105,7 @@ if st.session_state.step == 0:
         st.rerun()
 
 # ✅ Step 1: 업종 선택
-if st.session_state.step == 1:
+elif st.session_state.step == 1:
     if not st.session_state.industry_confirmed:
         show_speech("“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”", "어떤 분야에서 승부할지, 네 선택을 보여줘.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     else:
