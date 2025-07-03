@@ -91,6 +91,17 @@ def show_speech(title, subtitle, bg_url):
         </div>
     </div>
     """, unsafe_allow_html=True)
+# ✅ Step 0: 시작 안내
+if st.session_state.step == 0:
+    show_speech("“환영합니다!”", "게임 플레이에 앞서 다크모드를 적용중이시라면 라이트모드로 전환해주시길 바랍니다.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+    st.markdown("### 경영 시뮬레이션 게임에 오신 것을 환영합니다!")
+    st.markdown("""
+    이 게임에서는 회사를 창업하고 성장시키는 과정에서 다양한 결정을 내려야 합니다. 
+    회사를 성공적으로 운영해보세요!
+    """)
+    if st.button("게임 시작 ▶️"):
+        st.session_state.step = 1
+        st.rerun()
 
 # ✅ Step 1: 업종 선택
 if st.session_state.step == 1:
