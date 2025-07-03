@@ -126,4 +126,125 @@ elif st.session_state.step == 2:
 
     if st.session_state.company_name and st.button("다음 ▶️"):
         st.session_state.step = 3
-        st.rerun()
+        st.rerun
+
+
+import streamlit as st
+import random
+
+# ✅ 세션 초기화
+if "step" not in st.session_state:
+    st.session_state.step = 3
+if "score" not in st.session_state:
+    st.session_state.score = 0
+if "history" not in st.session_state:
+    st.session_state.history = []
+
+# ✅ 상황별 최적 전략
+effective_strategies = {
+    "⚠️ 대규모 고객 정보 유출": "보안 시스템 전면 재구축",
+    "📈 갑작스러운 수요 폭증": "생산 라인 증설",
+    "💸 원자재 가격 급등": "공급처 다변화",
+    "🔥 경쟁사 파산": "인재 채용 강화",
+    "🏆 글로벌 시장 진출 기회": "현지화 전략"
+}
+
+# ✅ 돌발 상황 정의
+situation, strategies = random.choice([
+    ("⚠️ 대규모 고객 정보 유출", ["보안 시스템 전면 재구축", "사과문 발표", "내부 책임자 교체", "조용히 넘어감", "보험 청구"]),
+    ("📈 갑작스러운 수요 폭증", ["생산 라인 증설", "가격 인상", "예약 판매", "품절 마케팅", "신규 고용"]),
+    ("💸 원자재 가격 급등", ["공급처 다변화", "생산 중단", "재고 우선 소비", "소비자 가격 인상", "대체 원료 탐색"]),
+    ("🔥 경쟁사 파산", ["인재 채용 강화", "시장 점유율 확대", "해당 기업 인수", "광고 강화", "신제품 발표"]),
+    ("🏆 글로벌 시장 진출 기회", ["현지화 전략", "글로벌 광고 캠페인", "온라인 직판", "외국 파트너와 제휴", "해외 공장 설립"])
+])
+
+# ✅ 스타일 유지 (기존 코드와 동일)
+st.markdown("""
+<style>
+html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+h1, h2, h3, h4, h5, h6, label, p, span, div {
+    color: #ffffff !important;
+}
+.stSelectbox div[data-baseweb="select"] * {
+    color: #000000 !important;
+}
+button p {
+    color: #000000 !important;
+    font-weight: bold;
+}
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0;
+}
+.speech-bubble {
+    position: absolute;
+    bottom: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px 25px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    text-align: center;
+    z-index: 1;
+    backdrop-filter: blur(8px);
+}
+.speech-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+.speech-sub {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #f0f0f0;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ✅ 말풍선 출력
+st.markdown(f"""
+<div class="container">
+    <img class="bg-image" src="https://raw.githubusercontent.com/dddowobbb/16-1/main/unexpected_event.png" />
+    <div class="speech-bubble">
+        <div class="speech-title">“예기치 못한 사건 발생!”</div>
+        <div class="speech-sub">상황에 적절한 전략을 선택해 회사를 지켜내자.</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ✅ 본문: 전략 선택
+st.markdown("### Step 3: 전략 선택")
+st.markdown(f"#### 상황: {situation}")
+selected = st.radio("🧠 선택할 전략은?", strategies)
+
+if st.button("전략 확정"):
+    # 점수 계산
+    if selected == effective_strategies.get(situation):
+        st.session_state.score += 10
+    else:
+        st.session_state.score += 5
+
+    # 히스토리 저장
+    st.session_state.history.append((situation, selected))
+    st.success(f"✅ 전략 '{selected}' 선택 완료! 다음 단계로 이동합니다.")
+    st.session_state.step = 4
+    st.rerun()
+
