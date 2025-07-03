@@ -36,26 +36,30 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockCont
     bottom: 8vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 70%;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 25px 30px;
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px 25px;
     border-radius: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     text-align: center;
     z-index: 1;
+    backdrop-filter: blur(8px);
 }
 .speech-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    color: #222;
+    color: #ffffff;
 }
 .speech-sub {
     margin-top: 10px;
-    font-size: 1.1rem;
-    color: #444;
+    font-size: 1rem;
+    color: #f0f0f0;
 }
 </style>
 """, unsafe_allow_html=True)
+
+
 
 # 대사 출력
 def get_step1_speech():
