@@ -41,6 +41,9 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
 .stSelectbox div[data-baseweb="select"] span {
     color: #000000 !important;
 }
+.stSelectbox div[data-baseweb="select"] div[data-testid="stMarkdownContainer"] span {
+    color: #000000 !important;
+}
 button p {
     color: #000000 !important;
     font-weight: bold;
