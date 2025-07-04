@@ -20,6 +20,7 @@ if "score" not in st.session_state:
 
 st.markdown("""
 st.markdown("""
+st.markdown("""
 <style>
 /* 전체 배경 및 글씨 */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
@@ -30,7 +31,7 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff !important;
 }
 
-/* ✅ selectbox 배경과 선택된 값 텍스트 */
+/* selectbox 배경과 선택된 값 텍스트 */
 div[data-baseweb="select"] {
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -46,7 +47,7 @@ div[data-baseweb="select"] svg {
     fill: #000000 !important;
 }
 
-/* ✅ 드롭다운 항목 전체 및 선택된 값까지 모두 검정색으로 */
+/* 드롭다운 항목 전체 및 선택된 값 텍스트 */
 .css-1dimb5e-singleValue,
 .css-1jqq78o-placeholder,
 .css-11unzgr,
@@ -108,6 +109,7 @@ button p {
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # ✅ 말풍선 생성 함수
