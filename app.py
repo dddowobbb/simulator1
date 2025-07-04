@@ -21,14 +21,11 @@ if "score" not in st.session_state:
 # ✅ 스타일 정의
 st.markdown("""
 <style>
-/* 전체 배경 및 텍스트 색상 */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"],
 h1, h2, h3, h4, h5, h6, label, p, span, div {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
 }
-
-/* Selectbox: 흰 배경, 검은 텍스트 */
 div[data-baseweb="select"], 
 div[data-baseweb="select"] *, 
 div[data-baseweb="select"] input, 
@@ -45,14 +42,10 @@ div[role="listbox"] div {
     color: #000000 !important;
     fill: #000000 !important;
 }
-
-/* 버튼 텍스트 */
 button p {
     color: #000000 !important;
     font-weight: bold;
 }
-
-/* 말풍선 UI */
 .container {
     position: relative;
     width: 100%;
@@ -98,15 +91,23 @@ button p {
 </style>
 """, unsafe_allow_html=True)
 
+# ✅ 말풍선 출력 함수
+def show_speech(title: str, subtitle: str, image_url: str):
+    st.markdown(f"""
+    <div class="container">
+        <img src="{image_url}" class="bg-image">
+        <div class="speech-bubble">
+            <div class="speech-title">{title}</div>
+            <div class="speech-sub">{subtitle}</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ✅ Step 0: 시작 안내
 if st.session_state.step == 0:
     show_speech("“환영합니다!”", "게임 플레이에 앞서 다크모드를 적용중이시라면 라이트모드로 전환해주시길 바랍니다.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     st.markdown("### 경영 시뮬레이션 게임에 오신 것을 환영합니다!")
-    st.markdown("""
-    이 게임에서는 회사를 창업하고 성장시키는 과정에서 다양한 결정을 내려야 합니다. 
-    회사를 성공적으로 운영해보세요!
-    """)
+    st.markdown("이 게임에서는 회사를 창업하고 성장시키는 과정에서 다양한 결정을 내려야 합니다. 회사를 성공적으로 운영해보세요!")
     if st.button("게임 시작 ▶️"):
         st.session_state.step = 1
         st.rerun()
