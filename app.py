@@ -100,11 +100,11 @@ button p {
 # ✅ 말풍선 출력 함수
 def show_speech(title: str, subtitle: str, image_url: str):
     st.markdown(f"""
-    <div class="container">
-        <img src="{image_url}" class="bg-image">
-        <div class="speech-bubble">
-            <div class="speech-title">{title}</div>
-            <div class="speech-sub">{subtitle}</div>
+    <div class=\"container\">
+        <img src=\"{image_url}\" class=\"bg-image\">
+        <div class=\"speech-bubble\">
+            <div class=\"speech-title\">{title}</div>
+            <div class=\"speech-sub\">{subtitle}</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -116,10 +116,10 @@ if st.session_state.step == 0:
     st.markdown("이 게임에서는 회사를 창업하고 성장시키는 과정에서 다양한 결정을 내려야 합니다. 회사를 성공적으로 운영해보세요!")
     if st.button("게임 시작 ▶️"):
         st.session_state.step = 1
-        st.rerun()
+        st.experimental_rerun()
 
 # ✅ Step 1~6 처리: (기존 코드 유지)
-# ... (중략) 이전 스텝들은 그대로 유지하되, 각 스텝에서 '다음 ▶️' 버튼이 필요한 곳에만 삽입하세요)
+# ... Step 1~6 코드는 기존대로 유지하며, 각 스텝 내부에서만 버튼 포함되도록 정리합니다.
 
 # ✅ Step 6: 최종 평가
 elif st.session_state.step == 6:
@@ -142,9 +142,7 @@ elif st.session_state.step == 6:
 
     if st.button("다음 ▶️"):
         st.session_state.step = 7
-        st.rerun()
-
-
+        st.experimental_rerun()
 
 
 # ✅ Step 7: 내부 문제 해결
