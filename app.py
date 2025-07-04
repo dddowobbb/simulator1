@@ -133,7 +133,7 @@ if st.session_state.step == 5:
 
     st.markdown("### Step 5: 국가적 위기 대응")
     st.markdown(f"**상황:** {st.session_state.crisis_situation}")
-    selected = st.radio("당신의 대응 전략은?", st.session_state.crisis_options)
+    strategy = st.radio("당신의 대응 전략은?", st.session_state.crisis_options)
 
     best_strategies = {
         "📉 한국 외환시장 급변 (원화 가치 급락)": "환 헤지 강화",
@@ -144,8 +144,8 @@ if st.session_state.step == 5:
     }
 
     if st.button("전략 확정"):
-        st.session_state.selected_strategy = selected
-        if selected == best_strategies.get(st.session_state.crisis_situation):
+        st.session_state.selected_strategy = strategy
+        if strategy == best_strategies.get(st.session_state.crisis_situation):
             st.session_state.score += 10
         else:
             st.session_state.score += 5
