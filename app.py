@@ -17,6 +17,9 @@ if "selected_strategy" not in st.session_state:
     st.session_state.selected_strategy = ""
 if "score" not in st.session_state:
     st.session_state.score = 0
+if "crisis_situation" not in st.session_state:
+    st.session_state.crisis_situation = ""
+    st.session_state.crisis_options = []
 
 # ✅ 스타일 정의 (말풍선 배경 rgba(255,255,255,0.1)로 복원)
 st.markdown("""
@@ -125,7 +128,7 @@ if st.session_state.step == 5:
         "🛃 주요 국가의 관세 인상 정책": ["무역 파트너 다변화", "현지 생산 확대", "비관세 수출 전략", "신시장 개척", "가격 재설정"]
     }
 
-    if "crisis_situation" not in st.session_state:
+    if not st.session_state.crisis_situation:
         st.session_state.crisis_situation, st.session_state.crisis_options = random.choice(list(crisis_situations.items()))
 
     st.markdown("### Step 5: 국가적 위기 대응")
