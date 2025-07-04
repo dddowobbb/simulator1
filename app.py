@@ -20,7 +20,7 @@ if "score" not in st.session_state:
 
 st.markdown("""
 <style>
-/* 전체 배경 및 글씨 */
+/* 전체 앱 배경 및 기본 텍스트 */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff !important;
 }
 
-/* selectbox 배경과 선택된 값 텍스트 */
+/* ✅ selectbox 영역: 배경은 흰색, 텍스트는 검정색 */
 div[data-baseweb="select"] {
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -45,15 +45,20 @@ div[data-baseweb="select"] svg {
     fill: #000000 !important;
 }
 
-/* 드롭다운 항목 전체 및 선택된 값 텍스트 */
+/* ✅ 선택된 항목 및 placeholder 텍스트 */
 .css-1dimb5e-singleValue,
 .css-1jqq78o-placeholder,
 .css-11unzgr,
 .css-1n76uvr,
 .css-qc6sy-singleValue,
-.css-1hb7zxy-IndicatorsContainer {
+.css-1wa3eu0-placeholder,
+.css-1uccc91-singleValue {
     color: #000000 !important;
-    fill: #000000 !important;
+}
+
+/* ✅ 드롭다운 항목 리스트 내부 텍스트 */
+div[role="listbox"] div {
+    color: #000000 !important;
 }
 
 /* 버튼 텍스트 */
@@ -62,7 +67,7 @@ button p {
     font-weight: bold;
 }
 
-/* 말풍선 UI */
+/* 말풍선 UI 구성 */
 .container {
     position: relative;
     width: 100%;
@@ -107,8 +112,6 @@ button p {
 }
 </style>
 """, unsafe_allow_html=True)
-
-
 
 # ✅ 말풍선 생성 함수
 def show_speech(title, subtitle, bg_url):
