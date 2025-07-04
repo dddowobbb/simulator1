@@ -205,3 +205,30 @@ elif st.session_state.step == 3:
         else:
             st.session_state.score += 5
         st.session_st_
+# ✅ Step 4: 결과 요약 및 피드백
+elif st.session_state.step == 4:
+    # ✅ 말풍선 UI
+    if st.session_state.selected_strategy:
+        if st.session_state.score >= 10:
+            title = "“훌륭한 판단이었어!”"
+            subtitle = f"{st.session_state.selected_strategy} 전략은 최고의 선택이었지. 점수: {st.session_state.score}점"
+        else:
+            title = "“음... 더 나은 전략도 있었을 거야.”"
+            subtitle = f"{st.session_state.selected_strategy} 전략도 나쁘지 않았어. 점수: {st.session_state.score}점"
+    else:
+        title = "“전략이 필요했는데 말이야...”"
+        subtitle = "아무 전략도 선택하지 않았어. 다음엔 신중하게 선택하자."
+
+    show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+
+    st.markdown("### Step 4: 결과 분석")
+    st.success(f"당신의 전략: **{st.session_state.selected_strategy}**")
+    st.info(f"현재 점수: **{st.session_state.score}점**")
+
+    if st.button("다음 이벤트 ▶️"):
+        # 상태 초기화 후 Step 3로 되돌림
+        st.session_state.situation = ""
+        st.session_state.options = []
+        st.session_state.selected_strategy = ""
+        st.session_state.step = 3
+        st.rerun()
