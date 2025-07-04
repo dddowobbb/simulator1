@@ -264,4 +264,29 @@ elif st.session_state.step == 5:
         st.session_state.crisis_options = []
         st.session_state.step = 6
         st.rerun()
+# ✅ Step 6: 최종 평가
+elif st.session_state.step == 6:
+    if st.session_state.selected_strategy:
+        if st.session_state.score >= 20:
+            title = "“최고의 경영자군!”"
+            subtitle = f"{st.session_state.selected_strategy} 전략은 위기 속에서도 뛰어난 선택이었어. 총 점수: {st.session_state.score}점"
+        else:
+            title = "“괜찮은 성과지만 아직 성장 가능성이 보여.”"
+            subtitle = f"{st.session_state.selected_strategy} 전략은 나쁘지 않았어. 총 점수: {st.session_state.score}점"
+    else:
+        title = "“전략 없이 위기를 넘기긴 어렵지.”"
+        subtitle = "전략을 선택하지 않았어. 다음번엔 더 나은 결정을 기대할게."
+
+    show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+
+    st.markdown("### Step 6: 최종 결과")
+    st.success(f"당신의 최종 전략: **{st.session_state.selected_strategy}**")
+    st.info(f"최종 점수: **{st.session_state.score}점**")
+
+    if st.button("게임 다시 시작 🔄"):
+        # 전체 세션 상태 초기화
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
+
 
