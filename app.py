@@ -18,9 +18,9 @@ if "selected_strategy" not in st.session_state:
 if "score" not in st.session_state:
     st.session_state.score = 0
 
-# ✅ 스타일 (배경 + 글씨색 + selectbox + 버튼)
 st.markdown("""
 <style>
+/* 전체 배경 및 기본 글씨 색 설정 */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
@@ -28,39 +28,38 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockCont
 h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff !important;
 }
-.stSelectbox div[data-baseweb="select"] {
+
+/* ✅ selectbox 선택 영역 및 내부 항목 텍스트 색상 조정 */
+div[data-baseweb="select"] {
     background-color: #ffffff !important;
     color: #000000 !important;
 }
-.stSelectbox div[data-baseweb="select"] * {
+div[data-baseweb="select"] * {
     color: #000000 !important;
     fill: #000000 !important;
 }
-.stSelectbox div[data-baseweb="select"] input {
+div[data-baseweb="select"] input {
     color: #000000 !important;
 }
-.stSelectbox div[data-baseweb="select"] span {
-    color: #000000 !important;
-}
-.stSelectbox div[data-baseweb="select"] div[data-testid="stMarkdownContainer"] span {
-    color: #000000 !important;
-}
-.stSelectbox div[data-baseweb="select"] svg {
+div[data-baseweb="select"] svg {
     fill: #000000 !important;
 }
-/* Step 1 selectbox 항목 글씨 검정색 처리 */
-.css-1wa3eu0-placeholder, .css-1uccc91-singleValue {
-    color: #000000 !important;
-}
-/* 선택 항목 및 드롭다운 리스트 내부 텍스트도 검정색 */
-.css-1n76uvr, .css-11unzgr {
+
+/* ✅ 선택된 값(선택박스 상단 텍스트), 드롭다운 리스트 항목 모두 검정색 */
+.css-1jqq78o-placeholder,
+.css-1dimb5e-singleValue,
+.css-11unzgr,
+.css-1n76uvr {
     color: #000000 !important;
 }
 
+/* 버튼 텍스트 색상 */
 button p {
     color: #000000 !important;
     font-weight: bold;
 }
+
+/* 말풍선 배경 레이아웃 */
 .container {
     position: relative;
     width: 100%;
@@ -105,6 +104,7 @@ button p {
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # ✅ 말풍선 생성 함수
 def show_speech(title, subtitle, bg_url):
