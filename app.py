@@ -48,6 +48,11 @@ div[data-baseweb="select"] * {
 div[role="listbox"] div {
     color: #000000 !important;
 }
+div[data-baseweb="select"] .css-1n76uvr,
+div[data-baseweb="select"] .css-qc6sy-singleValue,
+div[data-baseweb="select"] .css-1wa3eu0-placeholder {
+    color: #000000 !important;
+}
 button p {
     color: #000000 !important;
     font-weight: bold;
