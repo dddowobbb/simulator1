@@ -283,11 +283,16 @@ elif st.session_state.step == 6:
     st.success(f"당신의 최종 전략: **{st.session_state.selected_strategy}**")
     st.info(f"최종 점수: **{st.session_state.score}점**")
 
-    if st.button("게임 다시 시작 🔄"):
-        # 전체 세션 상태 초기화
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("다음 ▶️"):
+            st.session_state.step = 7
+            st.rerun()
+    with col2:
+        if st.button("게임 다시 시작 🔄"):
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
+            st.rerun()
 
 # ✅ Step 7: 내부 문제 해결
 elif st.session_state.step == 7:
