@@ -21,15 +21,23 @@ if "score" not in st.session_state:
 # ✅ 스타일 정의 (말풍선 배경 rgba(255,255,255,0.1)로 복원)
 st.markdown("""
 <style>
-html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"],
-h1, h2, h3, h4, h5, h6, label, p, span, div {
+/* 전체 앱 배경 및 기본 텍스트 */
+html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
 }
-div[data-baseweb="select"], 
-div[data-baseweb="select"] *, 
-div[data-baseweb="select"] input, 
-div[data-baseweb="select"] svg,
+h1, h2, h3, h4, h5, h6, label, p, span, div {
+    color: #ffffff !important;
+}
+
+/* ✅ selectbox 영역: 배경 흰색, 텍스트는 검정색 */
+div[data-baseweb="select"] {
+    background-color: #ffffff !important;
+}
+div[data-baseweb="select"] * {
+    color: #000000 !important;
+    fill: #000000 !important;
+}
 .css-1dimb5e-singleValue,
 .css-1jqq78o-placeholder,
 .css-11unzgr,
@@ -38,14 +46,16 @@ div[data-baseweb="select"] svg,
 .css-1wa3eu0-placeholder,
 .css-1uccc91-singleValue,
 div[role="listbox"] div {
-    background-color: #ffffff !important;
     color: #000000 !important;
-    fill: #000000 !important;
 }
+
+/* 버튼 텍스트 */
 button p {
     color: #000000 !important;
     font-weight: bold;
 }
+
+/* 말풍선 UI 구성 – 기존 그대로 유지 */
 .container {
     position: relative;
     width: 100%;
@@ -70,7 +80,7 @@ button p {
     transform: translateX(-50%);
     width: 90%;
     max-width: 500px;
-    background: rgba(255, 255, 255, 0.1);  /* ✅ 원래대로 복원 */
+    background: rgba(255, 255, 255, 0.1);
     padding: 20px 25px;
     border-radius: 25px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
@@ -90,6 +100,7 @@ button p {
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # ✅ 말풍선 출력 함수
 def show_speech(title: str, subtitle: str, image_url: str):
