@@ -19,8 +19,6 @@ if "score" not in st.session_state:
     st.session_state.score = 0
 
 st.markdown("""
-st.markdown("""
-st.markdown("""
 <style>
 /* 전체 배경 및 글씨 */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
