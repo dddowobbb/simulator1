@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 import streamlit as st
 import random
 
@@ -32,17 +39,17 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
 /* ✅ selectbox 영역: 배경은 흰색, 텍스트는 검정색 */
 div[data-baseweb="select"] {
     background-color: #ffffff !important;
-    color: #000000 !important;
+    color: #000000 !specificity;
 }
 div[data-baseweb="select"] * {
-    color: #000000 !important;
-    fill: #000000 !important;
+    color: #000000 !specificity;
+    fill: #000000 !specificity;
 }
 div[data-baseweb="select"] input {
-    color: #000000 !important;
+    color: #000000 !specificity;
 }
 div[data-baseweb="select"] svg {
-    fill: #000000 !important;
+    fill: #000000 !specificity;
 }
 
 /* ✅ 선택된 항목 및 placeholder 텍스트 */
