@@ -1,16 +1,9 @@
-
-
-
-
-
-
-
 import streamlit as st
 import random
 
 # ✅ 세션 상태 초기화
 if "step" not in st.session_state:
-    st.session_state.step = 0  # 👈 시작 전 설명 단계 추가
+    st.session_state.step = 0
 if "industry" not in st.session_state:
     st.session_state.industry = ""
 if "industry_confirmed" not in st.session_state:
@@ -25,47 +18,32 @@ if "selected_strategy" not in st.session_state:
 if "score" not in st.session_state:
     st.session_state.score = 0
 
+# ✅ 스타일 정의
 st.markdown("""
 <style>
-/* 전체 앱 배경 및 기본 텍스트 */
-html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
+/* 전체 배경 및 텍스트 색상 */
+html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"],
+h1, h2, h3, h4, h5, h6, label, p, span, div {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
 }
-h1, h2, h3, h4, h5, h6, label, p, span, div {
-    color: #ffffff !important;
-}
 
-/* ✅ selectbox 영역: 배경은 흰색, 텍스트는 검정색 */
-div[data-baseweb="select"] {
-    background-color: #ffffff !important;
-    color: #000000 !specificity;
-}
-div[data-baseweb="select"] * {
-    color: #000000 !specificity;
-    fill: #000000 !specificity;
-}
-div[data-baseweb="select"] input {
-    color: #000000 !specificity;
-}
-div[data-baseweb="select"] svg {
-    fill: #000000 !specificity;
-}
-
-/* ✅ 선택된 항목 및 placeholder 텍스트 */
+/* Selectbox: 흰 배경, 검은 텍스트 */
+div[data-baseweb="select"], 
+div[data-baseweb="select"] *, 
+div[data-baseweb="select"] input, 
+div[data-baseweb="select"] svg,
 .css-1dimb5e-singleValue,
 .css-1jqq78o-placeholder,
 .css-11unzgr,
 .css-1n76uvr,
 .css-qc6sy-singleValue,
 .css-1wa3eu0-placeholder,
-.css-1uccc91-singleValue {
-    color: #000000 !important;
-}
-
-/* ✅ 드롭다운 항목 리스트 내부 텍스트 */
+.css-1uccc91-singleValue,
 div[role="listbox"] div {
+    background-color: #ffffff !important;
     color: #000000 !important;
+    fill: #000000 !important;
 }
 
 /* 버튼 텍스트 */
@@ -74,7 +52,7 @@ button p {
     font-weight: bold;
 }
 
-/* 말풍선 UI 구성 */
+/* 말풍선 UI */
 .container {
     position: relative;
     width: 100%;
@@ -120,17 +98,6 @@ button p {
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 말풍선 생성 함수
-def show_speech(title, subtitle, bg_url):
-    st.markdown(f"""
-    <div class=\"container\">
-        <img class=\"bg-image\" src=\"{bg_url}\" />
-        <div class=\"speech-bubble\">
-            <div class=\"speech-title\">{title}</div>
-            <div class=\"speech-sub\">{subtitle}</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
 # ✅ Step 0: 시작 안내
 if st.session_state.step == 0:
