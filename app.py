@@ -19,8 +19,9 @@ if "score" not in st.session_state:
     st.session_state.score = 0
 
 st.markdown("""
+st.markdown("""
 <style>
-/* 전체 배경 및 기본 글씨 색 설정 */
+/* 전체 배경 및 글씨 */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
@@ -29,7 +30,7 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff !important;
 }
 
-/* ✅ selectbox 선택 영역 및 내부 항목 텍스트 색상 조정 */
+/* ✅ selectbox 배경과 선택된 값 텍스트 */
 div[data-baseweb="select"] {
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -45,21 +46,24 @@ div[data-baseweb="select"] svg {
     fill: #000000 !important;
 }
 
-/* ✅ 선택된 값(선택박스 상단 텍스트), 드롭다운 리스트 항목 모두 검정색 */
-.css-1jqq78o-placeholder,
+/* ✅ 드롭다운 항목 전체 및 선택된 값까지 모두 검정색으로 */
 .css-1dimb5e-singleValue,
+.css-1jqq78o-placeholder,
 .css-11unzgr,
-.css-1n76uvr {
+.css-1n76uvr,
+.css-qc6sy-singleValue,
+.css-1hb7zxy-IndicatorsContainer {
     color: #000000 !important;
+    fill: #000000 !important;
 }
 
-/* 버튼 텍스트 색상 */
+/* 버튼 텍스트 */
 button p {
     color: #000000 !important;
     font-weight: bold;
 }
 
-/* 말풍선 배경 레이아웃 */
+/* 말풍선 UI */
 .container {
     position: relative;
     width: 100%;
