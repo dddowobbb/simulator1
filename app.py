@@ -289,4 +289,27 @@ elif st.session_state.step == 6:
             del st.session_state[key]
         st.rerun()
 
+# ✅ Step 7: 내부 문제 해결
+elif st.session_state.step == 7:
+    show_speech("“요즘 직원들 분위기가 심상치 않아...”", "사기 저하, 인사 갈등, 생산성 저하 문제가 보고됐어. 어떻게 대응할까?", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+
+    st.markdown("### Step 7: 내부 문제 해결 전략 선택")
+
+    org_issues = {
+        "🧠 조직문화 혁신": 10,
+        "💰 복지 강화": 8,
+        "🔁 리더십 교체": 6,
+        "📚 교육 강화": 7,
+        "🧘 그냥 기다린다": 2
+    }
+
+    selected_org_strategy = st.radio("내부 문제를 해결할 전략을 선택하세요:", list(org_issues.keys()))
+
+    if st.button("전략 확정"):
+        st.session_state.selected_strategy = selected_org_strategy
+        st.session_state.score += org_issues[selected_org_strategy]
+        st.session_state.step = 8
+        st.rerun()
+
+
 
