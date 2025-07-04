@@ -1,3 +1,6 @@
+
+
+
 import streamlit as st
 import random
 
@@ -198,13 +201,15 @@ elif st.session_state.step == 3:
         "🌍 글로벌 시장 진출 기회": "현지화 전략"
     }
 
-    if st.button("전략 확정"):
-        st.session_state.selected_strategy = strategy
-        if strategy == effective_strategies.get(st.session_state.situation):
-            st.session_state.score += 10
-        else:
-            st.session_state.score += 5
-        st.session_st_
+if st.button("전략 확정"):
+    st.session_state.selected_strategy = strategy
+    if strategy == effective_strategies.get(st.session_state.situation):
+        st.session_state.score += 10
+    else:
+        st.session_state.score += 5
+    st.session_state.step = 4
+    st.rerun()
+
 # ✅ Step 4: 결과 요약 및 피드백
 elif st.session_state.step == 4:
     # ✅ 말풍선 UI
