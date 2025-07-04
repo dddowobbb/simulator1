@@ -18,7 +18,7 @@ if "selected_strategy" not in st.session_state:
 if "score" not in st.session_state:
     st.session_state.score = 0
 
-# ✅ 스타일 정의
+# ✅ 스타일 정의 (말풍선 배경 rgba(255,255,255,0.1)로 복원)
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"],
@@ -70,7 +70,7 @@ button p {
     transform: translateX(-50%);
     width: 90%;
     max-width: 500px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);  /* ✅ 원래대로 복원 */
     padding: 20px 25px;
     border-radius: 25px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
@@ -193,5 +193,4 @@ elif st.session_state.step == 3:
             st.session_state.score += 10
         else:
             st.session_state.score += 5
-        st.session_state.step = 4
-        st.rerun()
+        st.session_st_
