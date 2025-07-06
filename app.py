@@ -15,12 +15,13 @@ def initialize_session_state():
         "score": 0,
         "crisis_situation": "",
         "crisis_options": [],
-        "event_8": None, # Step 8 관련 세션 상태 초기화
+        "best_crisis_strategies": {}, # 추가: best_crisis_strategies를 세션 상태에 저장
+        "event_8": None,
         "event_8_options": [],
         "event_8_best": "",
         "event8_score": 0,
-        "step7_done": False, # Step 7 진행 여부 초기화
-        "step8_done": False, # Step 8 진행 여부 초기화
+        "step7_done": False,
+        "step8_done": False,
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -29,7 +30,6 @@ def initialize_session_state():
 initialize_session_state()
 
 # ✅ 공통 CSS 스타일 (한 번만 정의)
-# 전체 배경 및 텍스트 색상, 말풍선 스타일 등
 st.markdown("""
 <style>
 /* 전체 배경 및 텍스트 색상 */
@@ -225,15 +225,18 @@ elif st.session_state.step == 3:
 ## Step 4: 결과 분석 및 피드백
 elif st.session_state.step == 4:
     if st.session_state.selected_strategy:
-        if st.session_state.score >= 10: # 이 점수 기준은 상황마다 달라질 수 있으므로 유동적으로 조정 필요
+        # Step 3에서 획득한 점수를 명확히 표시
+        if st.session_state.selected_strategy == effective_strategies.get(st.session_state.situation): # effective_strategies는 Step 3의 로컬 변수이므로 직접 접근 불가. Step 3에서 획득 점수를 저장해야 함.
+            score_earned_this_step = 10
             title = "“훌륭한 판단이었어!”"
-            subtitle = f"선택한 전략: {st.session_state.selected_strategy} (획득 점수: 10점)"
         else:
+            score_earned_this_step = 5
             title = "“음... 더 나은 전략도 있었을 거야.”"
-            subtitle = f"선택한 전략: {st.session_state.selected_strategy} (획득 점수: 5점)"
+        subtitle = f"선택한 전략: {st.session_state.selected_strategy} (획득 점수: {score_earned_this_step}점)"
     else:
         title = "“전략이 필요했는데 말이야...”"
         subtitle = "아무 전략도 선택하지 않았어. 다음엔 신중하게 선택하자."
+        score_earned_this_step = 0 # 전략 미선택 시 점수 없음
 
     show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
 
@@ -262,13 +265,16 @@ elif st.session_state.step == 5:
         "🛃 주요 국가의 관세 인상 정책": ["무역 파트너 다변화", "현지 생산 확대", "비관세 수출 전략", "신시장 개척", "가격 재설정"]
     }
 
-    best_crisis_strategies = { # 정답 전략 매핑
+    best_crisis_strategies_mapping = { # 이름 변경: best_crisis_strategies_mapping으로
         "📉 한국 외환시장 급변 (원화 가치 급락)": "환 헤지 강화",
         "🇺🇸 미 연준의 기준금리 급등": "고금리 대비 자산 조정",
         "🗳️ 윤석열 대통령 탄핵 가결": "리스크 분산 경영",
-        "🇺🇸 트럼프 대선 재당선": "미국 중심 전략 강화", # 이전 '글로벌 전쟁 위험 증가'에 대한 전략 매핑이 불명확하여 수정
+        "🇺🇸 트럼프 대선 재당선": "미국 중심 전략 강화",
         "🛃 주요 국가의 관세 인상 정책": "무역 파트너 다변화"
     }
+    # best_crisis_strategies_mapping을 세션 상태에 저장
+    st.session_state.best_crisis_strategies = best_crisis_strategies_mapping
+
 
     if not st.session_state.crisis_situation:
         st.session_state.crisis_situation, st.session_state.crisis_options = random.choice(list(crisis_situations.items()))
@@ -279,10 +285,14 @@ elif st.session_state.step == 5:
 
     if st.button("전략 확정"):
         st.session_state.selected_strategy = crisis_strategy
-        if crisis_strategy == best_crisis_strategies.get(st.session_state.crisis_situation):
+        # Step 5에서 획득한 점수를 저장
+        if crisis_strategy == st.session_state.best_crisis_strategies.get(st.session_state.crisis_situation):
             st.session_state.score += 10
+            st.session_state.step5_score_earned = 10
         else:
             st.session_state.score += 5
+            st.session_state.step5_score_earned = 5
+
         # 현재 위기 상황 정보 초기화 (다음 라운드를 위해)
         st.session_state.crisis_situation = ""
         st.session_state.crisis_options = []
@@ -292,22 +302,24 @@ elif st.session_state.step == 5:
 # ---
 ## Step 6: 중간 평가
 elif st.session_state.step == 6:
-    # 이 부분은 Step 4와 유사하게 현재 시점에서 최종 선택된 전략에 대한 피드백을 주면 됩니다.
-    # Step 5에서 선택된 전략에 대한 점수 반영 후 Step 6으로 넘어왔으므로,
-    # st.session_state.selected_strategy와 st.session_state.score를 활용합니다.
-    current_strategy_score = 10 if st.session_state.selected_strategy == best_crisis_strategies.get(st.session_state.crisis_situation) else 5 # 이전에 선택된 전략에 대한 점수 기준
+    # Step 5에서 저장된 점수와 선택된 전략을 활용
+    score_earned_this_step = st.session_state.get("step5_score_earned", 0) # step5_score_earned가 없을 경우 기본값 0
 
-    if current_strategy_score == 10:
+    if score_earned_this_step == 10:
         title = "“최고의 경영자군!”"
-        subtitle = f"국가적 위기 속 {st.session_state.selected_strategy} 전략은 뛰어난 선택이었어. 총 점수: {st.session_state.score}점"
+        subtitle = f"국가적 위기 속 **{st.session_state.selected_strategy}** 전략은 뛰어난 선택이었어. 총 점수: {st.session_state.score}점"
     else:
         title = "“괜찮은 성과지만 아직 성장 가능성이 보여.”"
-        subtitle = f"국가적 위기 속 {st.session_state.selected_strategy} 전략도 나쁘지 않았어. 총 점수: {st.session_state.score}점"
+        subtitle = f"국가적 위기 속 **{st.session_state.selected_strategy}** 전략도 나쁘지 않았어. 총 점수: {st.session_state.score}점"
 
     show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     st.markdown("### Step 6: 중간 평가")
     st.success(f"당신의 전략: **{st.session_state.selected_strategy}**")
     st.info(f"현재 점수: **{st.session_state.score}점**")
+
+    # Step 5에서 사용한 step5_score_earned 세션 상태 정리
+    if "step5_score_earned" in st.session_state:
+        del st.session_state.step5_score_earned
 
     # 다음 스텝으로 자동 진행
     st.session_state.selected_strategy = "" # 다음 단계를 위해 전략 초기화
@@ -407,7 +419,7 @@ elif st.session_state.step == 8:
         st.success(f"전략: **{st.session_state.selected_strategy}**")
         st.info(f"총 점수: **{st.session_state.score}점**")
 
-        # 다음 단계로 자동 이동
+        # 다음 단계로 자동 이동 (원하면 Step 9 구현 가능)
         # 다음 게임을 위해 관련 세션 상태 초기화
         st.session_state.event_8 = None
         st.session_state.event_8_options = []
