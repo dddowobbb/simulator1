@@ -30,9 +30,14 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockCont
     color: #ffffff;
 }
 
-/* 모든 일반 텍스트를 흰색으로 설정 */
+/* 모든 일반 텍스트를 흰색으로 설정 (단 selectbox 내부 제외) */
 h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff;
+}
+
+/* selectbox 내부 span 텍스트는 기본 흰색 적용을 무시 */
+div[data-baseweb="select"] * {
+    color: #000000 !important;
 }
 
 /* selectbox 드롭다운 전체를 흰 배경으로 설정 */
@@ -47,6 +52,7 @@ div[data-baseweb="select"] div[role="option"] {
     color: #000000 !important;
     font-weight: 500;
     font-size: 16px;
+}
 
 /* 버튼 텍스트 색상 검정색, 굵게 */
 button p {
@@ -115,6 +121,7 @@ def show_speech(title: str, subtitle: str, image_url: str):
         </div>
     </div>
     """, unsafe_allow_html=True)
+
 
 
 # ✅ Step 0: 시작 안내
