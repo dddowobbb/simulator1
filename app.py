@@ -2,24 +2,24 @@ import streamlit as st
 import random
 
 # ✅ 세션 상태 초기화
-if "step" not in st.session_state:
-    st.session_state.step = 0
-if "industry" not in st.session_state:
-    st.session_state.industry = ""
-if "industry_confirmed" not in st.session_state:
-    st.session_state.industry_confirmed = False
-if "company_name" not in st.session_state:
-    st.session_state.company_name = ""
-if "situation" not in st.session_state:
-    st.session_state.situation = ""
-    st.session_state.options = []
-if "selected_strategy" not in st.session_state:
-    st.session_state.selected_strategy = ""
-if "score" not in st.session_state:
-    st.session_state.score = 0
-if "crisis_situation" not in st.session_state:
-    st.session_state.crisis_situation = ""
-    st.session_state.crisis_options = []
+def initialize_state():
+    defaults = {
+        "step": 0,
+        "industry": "",
+        "industry_confirmed": False,
+        "company_name": "",
+        "situation": "",
+        "options": [],
+        "selected_strategy": "",
+        "score": 0,
+        "crisis_situation": "",
+        "crisis_options": []
+    }
+    for key, val in defaults.items():
+        if key not in st.session_state:
+            st.session_state[key] = val
+
+initialize_state()
 
 # ✅ 스타일 정의
 st.markdown("""
@@ -38,17 +38,6 @@ div[data-baseweb="select"] * {
     color: #000000 !important;
     fill: #000000 !important;
 }
-.css-1dimb5e-singleValue,
-.css-1jqq78o-placeholder,
-.css-11unzgr,
-.css-1n76uvr,
-.css-qc6sy-singleValue,
-.css-1wa3eu0-placeholder,
-.css-1uccc91-singleValue,
-div[role="listbox"] div {
-    color: #000000 !important;
-}
-
 button p {
     color: #000000 !important;
     font-weight: bold;
@@ -110,11 +99,9 @@ def show_speech(title: str, subtitle: str, image_url: str):
     </div>
     """, unsafe_allow_html=True)
 
-# ✅ Step 0: 시작 안내
+# ✅ Step 0: 시작
 if st.session_state.step == 0:
-    show_speech("“환영합니다!”", "게임 플레이에 앞서 다크모드를 적용중이시라면 라이트모드로 전환해주시길 바랍니다.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-    st.markdown("### 경영 시뮬레이션 게임에 오신 것을 환영합니다!")
-    st.markdown("이 게임에서는 회사를 창업하고 성장시키는 과정에서 다양한 결정을 내려야 합니다. 회사를 성공적으로 운영해보세요!")
+    show_speech("“환영합니다!”", "경영 시뮬레이션에 오신 것을 환영합니다.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     if st.button("게임 시작 ▶️"):
         st.session_state.step = 1
         st.rerun()
@@ -122,212 +109,105 @@ if st.session_state.step == 0:
 # ✅ Step 1: 업종 선택
 elif st.session_state.step == 1:
     if not st.session_state.industry_confirmed:
-        show_speech("“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”", "어떤 분야에서 승부할지, 네 선택을 보여줘.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-    else:
-        show_speech(f"“{st.session_state.industry}... 흥미로운 선택이군.”", "다음 단계로 가볼까?", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-
-    st.markdown("### Step 1: 회사 분야 선택")
-    industries = ["💻 IT 스타트업", "🌱 친환경 제품", "🎮 게임 개발사", "👗 패션 브랜드", "🍔 푸드테크", "🛒 글로벌 전자상거래"]
-
-    if not st.session_state.industry_confirmed:
-        selected = st.selectbox("회사 업종을 선택해주세요", industries)
+        show_speech("“어떤 산업에 도전할까?”", "원하는 업종을 선택해보자.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+        industries = ["💻 IT 스타트업", "🌱 친환경 제품", "🎮 게임 개발사", "👗 패션 브랜드", "🍔 푸드테크", "🛒 글로벌 전자상거래"]
+        selected = st.selectbox("회사 업종을 선택하세요", industries)
         if st.button("업종 확정"):
             st.session_state.industry = selected
             st.session_state.industry_confirmed = True
             st.session_state.step = 2
             st.rerun()
-    else:
-        st.success(f"✅ 선택된 업종: {st.session_state.industry}")
-        if st.button("다음 ▶️"):
-            st.session_state.step = 2
+
+# ✅ Step 2: 회사 이름
+elif st.session_state.step == 2:
+    show_speech("“회사 이름을 지어보자.”", "멋진 이름을 기대하고 있겠어.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+    name = st.text_input("회사 이름 입력:", max_chars=20)
+    if st.button("이름 확정"):
+        if name.strip():
+            st.session_state.company_name = name.strip()
+            st.session_state.step = 3
             st.rerun()
 
-# ✅ Step 2: 회사 이름 입력
-elif st.session_state.step == 2:
-    if not st.session_state.company_name:
-        show_speech("“이제 회사를 설립할 시간이야.”", "멋진 회사 이름을 지어보자!", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-    else:
-        show_speech(f"“{st.session_state.company_name}... 멋진 이름이군!”", "이제 다음 단계로 넘어가자.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-
-    st.markdown("### Step 2: 회사 이름 입력")
-    name_input = st.text_input("당신의 회사 이름은?", max_chars=20)
-
-    if st.button("회사 이름 확정"):
-        if name_input.strip():
-            st.session_state.company_name = name_input.strip()
-            st.success("✅ 회사 이름이 등록되었습니다!")
-        else:
-            st.warning("⚠️ 회사 이름을 입력해주세요.")
-
-    if st.session_state.company_name and st.button("다음 ▶️"):
-        st.session_state.step = 3
-        st.rerun()
-
-# ✅ Step 3: 전략 선택
+# ✅ Step 3: 위기 상황 - 전략 선택
 elif st.session_state.step == 3:
-    show_speech("“예기치 못한 사건 발생!”", "상황에 적절한 전략을 선택해 회사를 지켜내자.", "https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png")
-
+    show_speech("“예기치 못한 사건 발생!”", "전략을 선택해 회사를 지켜내자.", "https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png")
     situations = {
-        "⚠️ 대규모 고객 데이터 유출 발생": ["보안 시스템 전면 재구축", "PR 대응", "사과문 발표", "외부 컨설턴트 투입", "서비스 일시 중단"],
-        "📈 갑작스러운 수요 폭증": ["생산 라인 확장", "기술 투자", "임시 고용 확대", "외주 활용", "품질 단가 조정"],
-        "💸 원자재 가격 급등": ["공급처 다변화", "대체 소재 도입", "장기 계약", "수입 조정", "원가 절감"],
-        "🔥 경쟁사 파산": ["인재 채용 강화", "기술 인수", "시장 확대", "기술 유출 방지", "법적 검토"],
-        "📉 주요 제품 매출 급감": ["제품 리뉴얼", "광고 캠페인", "신제품 출시", "할인 행사", "시장 조사"],
-        "🏆 대기업으로부터 투자 제안": ["지분 일부 매각", "전략적 제휴", "거절", "조건 재협상", "지분 공동 소유"],
-        "🌍 글로벌 시장 진출 기회": ["현지화 전략", "글로벌 광고 캠페인", "온라인 직판", "외국 파트너와 제휴", "해외 공장 설립"]
+        "📈 수요 폭증": ["생산 확대", "기술 투자", "인력 확충", "외주 활용"],
+        "💸 원자재 급등": ["공급처 변경", "대체 소재", "장기계약", "원가 절감"]
     }
-
+    best_strategies = {
+        "📈 수요 폭증": "생산 확대",
+        "💸 원자재 급등": "공급처 변경"
+    }
     if not st.session_state.situation:
         st.session_state.situation, st.session_state.options = random.choice(list(situations.items()))
-
-    st.markdown("### Step 3: 전략 선택")
-    st.markdown(f"📍 **상황:** {st.session_state.situation}")
-    strategy = st.radio("🧠 당신의 전략은?", st.session_state.options)
-
-    effective_strategies = {
-        "⚠️ 대규모 고객 데이터 유출 발생": "보안 시스템 전면 재구축",
-        "📈 갑작스러운 수요 폭증": "생산 라인 확장",
-        "💸 원자재 가격 급등": "공급처 다변화",
-        "🔥 경쟁사 파산": "인재 채용 강화",
-        "📉 주요 제품 매출 급감": "제품 리뉴얼",
-        "🏆 대기업으로부터 투자 제안": "지분 일부 매각",
-        "🌍 글로벌 시장 진출 기회": "현지화 전략"
-    }
-
+    st.write(f"상황: {st.session_state.situation}")
+    choice = st.radio("전략 선택:", st.session_state.options)
     if st.button("전략 확정"):
-        st.session_state.selected_strategy = strategy
-        if strategy == effective_strategies.get(st.session_state.situation):
-            st.session_state.score += 10
-        else:
-            st.session_state.score += 5
+        st.session_state.selected_strategy = choice
+        st.session_state.score += 10 if choice == best_strategies[st.session_state.situation] else 5
         st.session_state.step = 4
         st.rerun()
 
-# ✅ Step 4: 결과 분석 및 피드백
+# ✅ Step 4: 전략 피드백
 elif st.session_state.step == 4:
-    if st.session_state.selected_strategy:
-        if st.session_state.score >= 10:
-            title = "“훌륭한 판단이었어!”"
-            subtitle = f"{st.session_state.selected_strategy} 전략은 최고의 선택이었지. 점수: {st.session_state.score}점"
-        else:
-            title = "“음... 더 나은 전략도 있었을 거야.”"
-            subtitle = f"{st.session_state.selected_strategy} 전략도 나쁘지 않았어. 점수: {st.session_state.score}점"
-    else:
-        title = "“전략이 필요했는데 말이야...”"
-        subtitle = "아무 전략도 선택하지 않았어. 다음엔 신중하게 선택하자."
-
+    result = st.session_state.selected_strategy
+    score = st.session_state.score
+    title = "“탁월한 선택이었어!”" if score >= 10 else "“괜찮은 선택이지만 더 나은 전략도 있었지.”"
+    subtitle = f"{result} 전략으로 점수: {score}점"
     show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-
-    st.markdown("### Step 4: 결과 분석")
-    st.success(f"당신의 전략: **{st.session_state.selected_strategy}**")
-    st.info(f"현재 점수: **{st.session_state.score}점**")
-
-    if st.button("다음 이벤트 ▶️"):
+    if st.button("다음 ▶️"):
+        st.session_state.step = 5
         st.session_state.situation = ""
         st.session_state.options = []
         st.session_state.selected_strategy = ""
-        st.session_state.step = 5
         st.rerun()
-# ✅ Step 5: 국가적 위기 대응
+
+# ✅ Step 5: 내부 문제
 elif st.session_state.step == 5:
-    show_speech("“국가적 위기 발생!”", "경제, 정치, 국제 환경이 급변하고 있어. 대응 전략이 필요해.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-    crisis_situations = {
-        "📉 한국 외환시장 급변 (원화 가치 급락)": ["환 헤지 강화", "수출 확대", "정부와 협력", "외환 보유 확대", "위기 커뮤니케이션"],
-        "🇺🇸 미 연준의 기준금리 급등": ["대출 축소", "내수 집중 전략", "고금리 대비 자산 조정", "비용 구조 개선", "긴축 경영"],
-        "🗳️ 윤석열 대통령 탄핵 가결": ["리스크 분산 경영", "정치 모니터링 강화", "내부 의사결정 체계 정비", "단기 전략 전환", "위기 대비 태스크포스 운영"]
-    }
-    best_strategies = {
-        "📉 한국 외환시장 급변 (원화 가치 급락)": "환 헤지 강화",
-        "🇺🇸 미 연준의 기준금리 급등": "고금리 대비 자산 조정",
-        "🗳️ 윤석열 대통령 탄핵 가결": "리스크 분산 경영"
-    }
-    if not st.session_state.crisis_situation:
-        st.session_state.crisis_situation, st.session_state.crisis_options = random.choice(list(crisis_situations.items()))
-    st.markdown(f"**상황:** {st.session_state.crisis_situation}")
-    crisis_strategy = st.radio("🧠 대응 전략을 선택하세요:", st.session_state.crisis_options)
-    if st.button("전략 확정"):
-        st.session_state.selected_strategy = crisis_strategy
-        st.session_state.score += 10 if crisis_strategy == best_strategies.get(st.session_state.crisis_situation) else 5
-        st.session_state.crisis_situation = ""
-        st.session_state.crisis_options = []
-        st.session_state.step = 6
-        st.rerun()
-
-# ✅ Step 6: 피드백
-elif st.session_state.step == 6:
-    title = "“좋은 위기 대응이었어.”" if st.session_state.score >= 20 else "“더 나은 대응도 가능했을 거야.”"
-    subtitle = f"선택 전략: {st.session_state.selected_strategy}, 현재 점수: {st.session_state.score}점"
-    show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-    if st.button("다음 ▶️"):
-        st.session_state.step = 7
-        st.session_state.selected_strategy = ""
-        st.rerun()
-
-# ✅ Step 7: 내부 문제 해결 + 피드백
-elif st.session_state.step == 7:
-    org_issues = {
-        "🧠 조직문화 혁신": 10,
-        "💰 복지 강화": 8,
-        "🔁 리더십 교체": 6,
-        "📚 교육 강화": 7,
-        "🧘 그냥 기다린다": 2
-    }
-    if "step7_feedback_done" not in st.session_state:
-        show_speech("“요즘 직원들 분위기가 심상치 않아...”", "사기 저하, 인사 갈등, 생산성 저하 문제가 보고됐어. 어떻게 대응할까?", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-        selected_org_strategy = st.radio("내부 문제를 해결할 전략을 선택하세요:", list(org_issues.keys()))
+    issues = {"조직문화 혁신": 10, "복지 강화": 8, "리더 교체": 6, "교육 강화": 7, "방치": 2}
+    if "step5_done" not in st.session_state:
+        show_speech("“조직 내 문제가 발생했어!”", "직원 사기 저하와 갈등이 보고됐어.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+        sel = st.radio("해결 전략 선택:", list(issues.keys()))
         if st.button("전략 확정"):
-            st.session_state.selected_strategy = selected_org_strategy
-            st.session_state.score += org_issues[selected_org_strategy]
-            st.session_state.step7_feedback_done = True
+            st.session_state.selected_strategy = sel
+            st.session_state.score += issues[sel]
+            st.session_state.step5_done = True
             st.rerun()
     else:
-        subtitle = f"{st.session_state.selected_strategy} 전략 선택으로 현재 점수는 {st.session_state.score}점입니다."
-        title = "“좋은 조치였어.”" if org_issues[st.session_state.selected_strategy] >= 7 else "“그보다 나은 방법도 있었을 텐데...”"
-        show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+        result = st.session_state.selected_strategy
+        show_speech("“잘 처리했군.”", f"{result} 전략으로 점수: {st.session_state.score}점", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
         if st.button("다음 ▶️"):
-            del st.session_state.step7_feedback_done
-            st.session_state.step = 8
+            del st.session_state.step5_done
+            st.session_state.step = 6
             st.session_state.selected_strategy = ""
             st.rerun()
 
-# ✅ Step 8: 돌발 변수 + 피드백
-elif st.session_state.step == 8:
-    random_events = {
-        "📉 글로벌 경제 불황": {
-            "options": ["비용 절감", "내수 시장 집중", "긴축 재정 운영", "신사업 보류", "시장 철수"],
-            "best": "내수 시장 집중"
-        },
-        "🚀 경쟁사의 혁신 제품 발표": {
-            "options": ["기술 개발 가속", "브랜드 리뉴얼", "마케팅 강화", "가격 인하", "특허 소송"],
-            "best": "기술 개발 가속"
-        },
-        "📜 정부 규제 강화": {
-            "options": ["법무팀 확대", "규제 준수 시스템 강화", "비즈니스 모델 전환", "로비 활동 강화", "해외 진출 모색"],
-            "best": "규제 준수 시스템 강화"
-        }
+# ✅ Step 6: 외부 돌발 변수
+elif st.session_state.step == 6:
+    events = {
+        "글로벌 경제 불황": {"options": ["내수 집중", "긴축 재정", "비용 절감"], "best": "내수 집중"},
+        "경쟁사 신제품 출시": {"options": ["기술 투자", "마케팅 강화", "가격 인하"], "best": "기술 투자"}
     }
-
-    if "step8_feedback_done" not in st.session_state:
-        if "event_8" not in st.session_state:
-            event_name, info = random.choice(list(random_events.items()))
-            st.session_state.event_8 = event_name
-            st.session_state.event_8_options = info["options"]
-            st.session_state.event_8_best = info["best"]
-        show_speech("“뜻밖의 일이 벌어졌어!”", "외부 변수로 인해 경영환경이 크게 흔들리고 있어.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-        st.markdown(f"**🌀 이벤트:** {st.session_state.event_8}")
-        selected = st.radio("✅ 어떤 전략으로 대응할까요?", st.session_state.event_8_options)
+    if "step6_done" not in st.session_state:
+        if "event_6" not in st.session_state:
+            name, info = random.choice(list(events.items()))
+            st.session_state.event_6 = name
+            st.session_state.event_6_options = info["options"]
+            st.session_state.event_6_best = info["best"]
+        show_speech("“예상치 못한 변수 등장!”", st.session_state.event_6, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+        selected = st.radio("전략 선택:", st.session_state.event_6_options)
         if st.button("전략 확정"):
             st.session_state.selected_strategy = selected
-            st.session_state.score += 10 if selected == st.session_state.event_8_best else 5
-            st.session_state.step8_feedback_done = True
+            st.session_state.score += 10 if selected == st.session_state.event_6_best else 5
+            st.session_state.step6_done = True
             st.rerun()
     else:
-        title = "“잘 대응했어!”" if st.session_state.selected_strategy == st.session_state.event_8_best else "“나쁘진 않지만 아쉬웠군.”"
-        subtitle = f"선택 전략: {st.session_state.selected_strategy}, 점수: {st.session_state.score}점"
-        show_speech(title, subtitle, "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+        show_speech("“위기에도 잘 대처했군.”", f"전략: {st.session_state.selected_strategy}, 총점: {st.session_state.score}점", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
         if st.button("다음 ▶️"):
-            for k in ["event_8", "event_8_options", "event_8_best", "step8_feedback_done"]:
+            for k in ["event_6", "event_6_options", "event_6_best", "step6_done"]:
                 if k in st.session_state:
                     del st.session_state[k]
-            st.session_state.step = 9
+            st.session_state.step = 7
+            st.session_state.selected_strategy = ""
             st.rerun()
