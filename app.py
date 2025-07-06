@@ -1,57 +1,58 @@
 import streamlit as st
 import random
 
-# ✅ 세션 상태 초기화
+# ✅ 세션 상태 초기화: 앱이 새로고침돼도 사용자 상태를 기억하기 위한 저장 공간
 if "step" not in st.session_state:
-    st.session_state.step = 0
+    st.session_state.step = 0  # 게임의 현재 단계 (0~8)
 if "industry" not in st.session_state:
-    st.session_state.industry = ""
+    st.session_state.industry = ""  # 선택한 업종
 if "industry_confirmed" not in st.session_state:
-    st.session_state.industry_confirmed = False
+    st.session_state.industry_confirmed = False  # 업종 확정 여부
 if "company_name" not in st.session_state:
-    st.session_state.company_name = ""
+    st.session_state.company_name = ""  # 회사 이름
 if "situation" not in st.session_state:
-    st.session_state.situation = ""
-    st.session_state.options = []
+    st.session_state.situation = ""  # 임의 상황 텍스트
+    st.session_state.options = []  # 상황에 따른 전략 리스트
 if "selected_strategy" not in st.session_state:
-    st.session_state.selected_strategy = ""
+    st.session_state.selected_strategy = ""  # 사용자가 선택한 전략
 if "score" not in st.session_state:
-    st.session_state.score = 0
+    st.session_state.score = 0  # 누적 점수
 if "crisis_situation" not in st.session_state:
-    st.session_state.crisis_situation = ""
-    st.session_state.crisis_options = []
+    st.session_state.crisis_situation = ""  # 국가적 위기 상황 텍스트
+    st.session_state.crisis_options = []  # 위기에 대한 대응 전략 리스트
 
-# ✅ 스타일 정의
+# ✅ 앱 전체 스타일 설정 (배경색, 텍스트 색, 말풍선 등 디자인 변경)
 st.markdown("""
 <style>
+/* 전체 배경 및 텍스트 색상 설정 */
 html, body, [data-testid="stAppViewContainer"], [data-testid="stAppViewBlockContainer"] {
-    background-color: #1a1a1a !important;
-    color: #ffffff !important;
+    background-color: #1a1a1a;
+    color: #ffffff;
 }
+
+/* 모든 일반 텍스트를 흰색으로 설정 */
 h1, h2, h3, h4, h5, h6, label, p, span, div {
-    color: #ffffff !important;
+    color: #ffffff;
 }
+
+/* selectbox 드롭다운 내부 배경은 흰색 */
 div[data-baseweb="select"] {
-    background-color: #ffffff !important;
+    background-color: #ffffff;
 }
-div[data-baseweb="select"] * {
-    color: #000000 !important;
-    fill: #000000 !important;
+
+/* selectbox의 선택된 값과 placeholder는 검정 텍스트 */
+div[data-baseweb="select"] .css-1dimb5e-singleValue,
+div[data-baseweb="select"] .css-1wa3eu0-placeholder {
+    color: #000000;
 }
-.css-1dimb5e-singleValue,
-.css-1jqq78o-placeholder,
-.css-1wa3eu0-placeholder,
-.css-11unzgr,
-.css-1n76uvr,
-.css-qc6sy-singleValue,
-.css-1uccc91-singleValue,
-div[role="listbox"] div {
-    color: #000000 !important;
-}
+
+/* 버튼 텍스트 색상 검정색, 굵게 */
 button p {
-    color: #000000 !important;
+    color: #000000;
     font-weight: bold;
 }
+
+/* 배경 이미지 및 말풍선 컨테이너 스타일 */
 .container {
     position: relative;
     width: 100%;
@@ -61,6 +62,7 @@ button p {
     padding: 0;
     background-color: #1a1a1a;
 }
+
 .bg-image {
     position: absolute;
     top: 0; left: 0;
@@ -69,6 +71,7 @@ button p {
     object-fit: cover;
     z-index: 0;
 }
+
 .speech-bubble {
     position: absolute;
     bottom: 8vh;
@@ -84,11 +87,13 @@ button p {
     z-index: 1;
     backdrop-filter: blur(8px);
 }
+
 .speech-title {
     font-size: 1.4rem;
     font-weight: bold;
     color: #ffffff;
 }
+
 .speech-sub {
     margin-top: 10px;
     font-size: 1rem;
@@ -97,7 +102,7 @@ button p {
 </style>
 """, unsafe_allow_html=True)
 
-# ✅ 말풍선 출력 함수
+# ✅ 말풍선 표시 함수: 배경 이미지와 대사(제목, 부제)를 화면에 띄움
 def show_speech(title: str, subtitle: str, image_url: str):
     st.markdown(f"""
     <div class="container">
