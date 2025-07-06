@@ -43,6 +43,8 @@ div[data-baseweb="select"] {
 /* 드롭다운 텍스트 전체를 검정색으로 설정 */
 div[data-baseweb="select"] span {
     color: #000000 !important;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 /* 버튼 텍스트 색상 검정색, 굵게 */
@@ -112,6 +114,7 @@ def show_speech(title: str, subtitle: str, image_url: str):
         </div>
     </div>
     """, unsafe_allow_html=True)
+
 
 # ✅ Step 0: 시작 안내
 if st.session_state.step == 0:
