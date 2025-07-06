@@ -40,10 +40,7 @@ div[data-baseweb="select"] * {
     color: #000000 !important;
 }
 
-/* selectbox 드롭다운 전체를 흰 배경으로 설정 */
-div[data-baseweb="select"] {
-    background-color: #ffffff;
-}
+
 
 /* 드롭다운 텍스트 전체를 검정색으로 설정 */
 div[data-baseweb="select"] div[class*="singleValue"],
