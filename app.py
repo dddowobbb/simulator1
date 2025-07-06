@@ -35,15 +35,14 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff;
 }
 
-/* selectbox 드롭다운 내부 배경은 흰색 */
+/* selectbox 드롭다운 전체를 흰 배경으로 설정 */
 div[data-baseweb="select"] {
     background-color: #ffffff;
 }
 
-/* selectbox의 선택된 값과 placeholder는 검정 텍스트 */
-div[data-baseweb="select"] .css-1dimb5e-singleValue,
-div[data-baseweb="select"] .css-1wa3eu0-placeholder {
-    color: #000000;
+/* 드롭다운 텍스트 전체를 검정색으로 설정 */
+div[data-baseweb="select"] span {
+    color: #000000 !important;
 }
 
 /* 버튼 텍스트 색상 검정색, 굵게 */
