@@ -35,7 +35,15 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff;
 }
 
+/* selectbox 내부 span 텍스트는 기본 흰색 적용을 무시 */
+div[data-baseweb="select"] * {
+    color: inherit !important;
+}
 
+/* selectbox 드롭다운 전체를 흰 배경으로 설정 */
+div[data-baseweb="select"] {
+    background-color: #ffffff;
+}
 
 /* 드롭다운 텍스트 전체를 검정색으로 설정 */
 div[data-baseweb="select"] div[class*="singleValue"],
@@ -114,8 +122,7 @@ def show_speech(title: str, subtitle: str, image_url: str):
     </div>
     """, unsafe_allow_html=True)
 
-
-
+# ⚙️ 아래부터 단계별 로직 (Step 0~8)은 그대로 유지되며, 각 단계는 말풍선 + 선택지 UI로 구성됨.
 # ✅ Step 0: 시작 안내
 if st.session_state.step == 0:
     show_speech("“환영합니다!”", "게임 플레이에 앞서 다크모드를 적용중이시라면 라이트모드로 전환해주시길 바랍니다.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
@@ -144,7 +151,9 @@ elif st.session_state.step == 1:
             st.rerun()
     else:
         st.success(f"✅ 선택된 업종: {st.session_state.industry}")
-      
+        if st.button("다음 ▶️"):
+            st.session_state.step = 2
+            st.rerun()
 
 # ✅ Step 2: 회사 이름 입력
 elif st.session_state.step == 2:
@@ -232,6 +241,7 @@ elif st.session_state.step == 4:
         st.session_state.selected_strategy = ""
         st.session_state.step = 5
         st.rerun()
+
 # ✅ Step 5: 국가적 위기 대응
 elif st.session_state.step == 5:
     show_speech("“국가적 위기 발생!”", "경제, 정치, 국제 환경이 급변하고 있어. 대응 전략이 필요해.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
@@ -254,8 +264,8 @@ elif st.session_state.step == 5:
     best_strategies = {
         "📉 한국 외환시장 급변 (원화 가치 급락)": "환 헤지 강화",
         "🇺🇸 미 연준의 기준금리 급등": "고금리 대비 자산 조정",
-        "🗳️ 정치적 불확실성 증가": "리스크 분산 경영",
-        "🇺🇸 글로벌 전쟁 위험 증가": "공급망 재편",
+        "🗳️ 윤석열 대통령 탄핵 가결": "리스크 분산 경영",
+        "🇺🇸 트럼프 대선 재당선": "공급망 재편",
         "🛃 주요 국가의 관세 인상 정책": "무역 파트너 다변화"
     }
 
@@ -269,6 +279,7 @@ elif st.session_state.step == 5:
         st.session_state.crisis_options = []
         st.session_state.step = 6
         st.rerun()
+
 # ✅ Step 6: 최종 평가
 elif st.session_state.step == 6:
     if st.session_state.selected_strategy:
@@ -288,10 +299,9 @@ elif st.session_state.step == 6:
     st.success(f"당신의 최종 전략: **{st.session_state.selected_strategy}**")
     st.info(f"최종 점수: **{st.session_state.score}점**")
 
-if st.button("다음 ▶️"):
-    st.session_state.step = 7
-    st.rerun()
-
+    if st.button("다음 ▶️"):
+        st.session_state.step = 7
+        st.rerun()
 
 # ✅ Step 7: 내부 문제 해결
 elif st.session_state.step == 7:
@@ -314,6 +324,7 @@ elif st.session_state.step == 7:
         st.session_state.score += org_issues[selected_org_strategy]
         st.session_state.step = 8
         st.rerun()
+
 # ✅ Step 8: 돌발 변수 등장
 elif st.session_state.step == 8:
     show_speech("“뜻밖의 일이 벌어졌어!”", "외부 변수로 인해 경영환경이 크게 흔들리고 있어.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
