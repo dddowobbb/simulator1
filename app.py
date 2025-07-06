@@ -35,11 +35,6 @@ h1, h2, h3, h4, h5, h6, label, p, span, div {
     color: #ffffff;
 }
 
-/* selectbox 내부 span 텍스트는 기본 흰색 적용을 무시 */
-div[data-baseweb="select"] * {
-    color: #000000 !important;
-}
-
 
 
 /* 드롭다운 텍스트 전체를 검정색으로 설정 */
@@ -149,9 +144,7 @@ elif st.session_state.step == 1:
             st.rerun()
     else:
         st.success(f"✅ 선택된 업종: {st.session_state.industry}")
-        if st.button("다음 ▶️"):
-            st.session_state.step = 2
-            st.rerun()
+      
 
 # ✅ Step 2: 회사 이름 입력
 elif st.session_state.step == 2:
