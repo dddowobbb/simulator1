@@ -41,11 +41,12 @@ div[data-baseweb="select"] {
 }
 
 /* 드롭다운 텍스트 전체를 검정색으로 설정 */
-div[data-baseweb="select"] span {
+div[data-baseweb="select"] div[class*="singleValue"],
+div[data-baseweb="select"] div[class*="placeholder"],
+div[data-baseweb="select"] div[role="option"] {
     color: #000000 !important;
     font-weight: 500;
     font-size: 16px;
-}
 
 /* 버튼 텍스트 색상 검정색, 굵게 */
 button p {
