@@ -109,14 +109,12 @@ def show_speech(title: str, subtitle: str, image_url: str):
     </div>
     """, unsafe_allow_html=True)
 
-# ✅ Step 0: 시작 안내
+# ✅ Step 0: 시작 안내 → 자동 Step 1 이동
 if st.session_state.step == 0:
-    show_speech("“환영합니다!”", "게임 플레이에 앞서 다크모드를 적용중이시라면 라이트모드로 전환해주시길 바랍니다.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+    show_speech("“환영합니다!”", "게임은 자동으로 시작됩니다. 잠시만 기다려주세요.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     st.markdown("### 경영 시뮬레이션 게임에 오신 것을 환영합니다!")
-    st.markdown("이 게임에서는 회사를 창업하고 성장시키는 과정에서 다양한 결정을 내려야 합니다. 회사를 성공적으로 운영해보세요!")
-    if st.button("게임 시작 ▶️"):
-        st.session_state.step = 1
-        st.rerun()
+    st.session_state.step = 1
+    st.rerun()
 
 # ✅ Step 1: 업종 선택
 elif st.session_state.step == 1:
@@ -124,21 +122,17 @@ elif st.session_state.step == 1:
         show_speech("“좋아, 이제 우리가 어떤 산업에 뛰어들지 결정할 시간이군.”", "어떤 분야에서 승부할지, 네 선택을 보여줘.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
     else:
         show_speech(f"“{st.session_state.industry}... 흥미로운 선택이군.”", "다음 단계로 가볼까?", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
+        st.session_state.step = 2
+        st.rerun()
 
     st.markdown("### Step 1: 회사 분야 선택")
     industries = ["💻 IT 스타트업", "🌱 친환경 제품", "🎮 게임 개발사", "👗 패션 브랜드", "🍔 푸드테크", "🛒 글로벌 전자상거래"]
 
     if not st.session_state.industry_confirmed:
         selected = st.selectbox("회사 업종을 선택해주세요", industries)
-        if st.button("업종 확정"):
+        if st.button("업종 확정", key="confirm_industry"):
             st.session_state.industry = selected
             st.session_state.industry_confirmed = True
-            st.session_state.step = 2
-            st.rerun()
-    else:
-        st.success(f"✅ 선택된 업종: {st.session_state.industry}")
-        if st.button("다음 ▶️"):
-            st.session_state.step = 2
             st.rerun()
 
 # ✅ Step 2: 회사 이름 입력
@@ -149,19 +143,18 @@ elif st.session_state.step == 2:
         show_speech(f"“{st.session_state.company_name}... 멋진 이름이군!”", "이제 다음 단계로 넘어가자.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
 
     st.markdown("### Step 2: 회사 이름 입력")
-    name_input = st.text_input("당신의 회사 이름은?", max_chars=20)
+    name_input = st.text_input("당신의 회사 이름은?", max_chars=20, key="company_name_input")
 
-    if st.button("회사 이름 확정"):
+    if st.button("회사 이름 확정", key="confirm_company_name"):
         if name_input.strip():
             st.session_state.company_name = name_input.strip()
             st.success("✅ 회사 이름이 등록되었습니다!")
         else:
             st.warning("⚠️ 회사 이름을 입력해주세요.")
 
-    if st.session_state.company_name and st.button("다음 ▶️"):
+    if st.session_state.company_name:
         st.session_state.step = 3
         st.rerun()
-
 # ✅ Step 3: 전략 선택
 elif st.session_state.step == 3:
     show_speech("“예기치 못한 사건 발생!”", "상황에 적절한 전략을 선택해 회사를 지켜내자.", "https://raw.githubusercontent.com/dddowobbb/simulator1/main/badevent.png")
@@ -193,7 +186,7 @@ elif st.session_state.step == 3:
         "🌍 글로벌 시장 진출 기회": "현지화 전략"
     }
 
-    if st.button("전략 확정"):
+    if st.button("전략 확정", key="confirm_strategy_3"):
         st.session_state.selected_strategy = strategy
         if strategy == effective_strategies.get(st.session_state.situation):
             st.session_state.score += 10
@@ -202,7 +195,7 @@ elif st.session_state.step == 3:
         st.session_state.step = 4
         st.rerun()
 
-# ✅ Step 4: 결과 분석
+# ✅ Step 4: 결과 분석 → 자동 Step 5로 이동
 elif st.session_state.step == 4:
     if st.session_state.selected_strategy:
         if st.session_state.score >= 10:
@@ -221,14 +214,13 @@ elif st.session_state.step == 4:
     st.success(f"당신의 전략: **{st.session_state.selected_strategy}**")
     st.info(f"현재 점수: **{st.session_state.score}점**")
 
-    if st.button("다음 이벤트 ▶️"):
-        st.session_state.situation = ""
-        st.session_state.options = []
-        st.session_state.selected_strategy = ""
-        st.session_state.step = 5
-        st.rerun()
-
-# ✅ Step 5: 위기 대응
+    # ⛔️ 버튼 없이 자동 진행
+    st.session_state.situation = ""
+    st.session_state.options = []
+    st.session_state.selected_strategy = ""
+    st.session_state.step = 5
+    st.rerun()
+# ✅ Step 5: 국가적 위기 대응
 elif st.session_state.step == 5:
     show_speech("“국가적 위기 발생!”", "경제, 정치, 국제 환경이 급변하고 있어. 대응 전략이 필요해.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
 
@@ -250,12 +242,12 @@ elif st.session_state.step == 5:
     best_strategies = {
         "📉 한국 외환시장 급변 (원화 가치 급락)": "환 헤지 강화",
         "🇺🇸 미 연준의 기준금리 급등": "고금리 대비 자산 조정",
-        "🗳️ 정치적 불확실성 증가": "리스크 분산 경영",
-        "🇺🇸 글로벌 전쟁 위험 증가": "공급망 재편",
+        "🗳️ 윤석열 대통령 탄핵 가결": "리스크 분산 경영",
+        "🇺🇸 트럼프 대선 재당선": "공급망 재편",
         "🛃 주요 국가의 관세 인상 정책": "무역 파트너 다변화"
     }
 
-    if st.button("전략 확정"):
+    if st.button("전략 확정", key="confirm_crisis_strategy"):
         st.session_state.selected_strategy = crisis_strategy
         if crisis_strategy == best_strategies.get(st.session_state.crisis_situation):
             st.session_state.score += 10
@@ -266,7 +258,7 @@ elif st.session_state.step == 5:
         st.session_state.step = 6
         st.rerun()
 
-# ✅ Step 6: 최종 평가 (버튼 없이 결과만 출력)
+# ✅ Step 6: 최종 평가
 elif st.session_state.step == 6:
     if st.session_state.selected_strategy:
         if st.session_state.score >= 20:
@@ -284,3 +276,5 @@ elif st.session_state.step == 6:
     st.markdown("### Step 6: 최종 결과")
     st.success(f"당신의 최종 전략: **{st.session_state.selected_strategy}**")
     st.info(f"최종 점수: **{st.session_state.score}점**")
+
+# (선택 사항) 이후 Step 7, Step 8 추가를 원하면 여기에 계속 연결 가능
