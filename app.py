@@ -48,7 +48,6 @@ div[data-baseweb="select"] * {
 div[role="listbox"] div {
     color: #000000 !important;
 }
-
 button p {
     color: #000000 !important;
     font-weight: bold;
@@ -203,7 +202,7 @@ elif st.session_state.step == 3:
         st.session_state.step = 4
         st.rerun()
 
-# ✅ Step 4: 결과 분석 및 피드백
+# ✅ Step 4: 결과 분석
 elif st.session_state.step == 4:
     if st.session_state.selected_strategy:
         if st.session_state.score >= 10:
@@ -228,7 +227,8 @@ elif st.session_state.step == 4:
         st.session_state.selected_strategy = ""
         st.session_state.step = 5
         st.rerun()
-# ✅ Step 5: 국가적 위기 대응
+
+# ✅ Step 5: 위기 대응
 elif st.session_state.step == 5:
     show_speech("“국가적 위기 발생!”", "경제, 정치, 국제 환경이 급변하고 있어. 대응 전략이 필요해.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
 
@@ -250,8 +250,8 @@ elif st.session_state.step == 5:
     best_strategies = {
         "📉 한국 외환시장 급변 (원화 가치 급락)": "환 헤지 강화",
         "🇺🇸 미 연준의 기준금리 급등": "고금리 대비 자산 조정",
-        "🗳️ 윤석열 대통령 탄핵 가결": "리스크 분산 경영",
-        "🇺🇸 트럼프 대선 재당선": "공급망 재편",
+        "🗳️ 정치적 불확실성 증가": "리스크 분산 경영",
+        "🇺🇸 글로벌 전쟁 위험 증가": "공급망 재편",
         "🛃 주요 국가의 관세 인상 정책": "무역 파트너 다변화"
     }
 
@@ -265,7 +265,8 @@ elif st.session_state.step == 5:
         st.session_state.crisis_options = []
         st.session_state.step = 6
         st.rerun()
-# ✅ Step 6: 최종 평가
+
+# ✅ Step 6: 최종 평가 (버튼 없이 결과만 출력)
 elif st.session_state.step == 6:
     if st.session_state.selected_strategy:
         if st.session_state.score >= 20:
@@ -283,75 +284,3 @@ elif st.session_state.step == 6:
     st.markdown("### Step 6: 최종 결과")
     st.success(f"당신의 최종 전략: **{st.session_state.selected_strategy}**")
     st.info(f"최종 점수: **{st.session_state.score}점**")
-
-if st.button("다음 ▶️"):
-    st.session_state.step = 7
-    st.rerun()
-
-
-# ✅ Step 7: 내부 문제 해결
-elif st.session_state.step == 7:
-    show_speech("“요즘 직원들 분위기가 심상치 않아...”", "사기 저하, 인사 갈등, 생산성 저하 문제가 보고됐어. 어떻게 대응할까?", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-
-    st.markdown("### Step 7: 내부 문제 해결 전략 선택")
-
-    org_issues = {
-        "🧠 조직문화 혁신": 10,
-        "💰 복지 강화": 8,
-        "🔁 리더십 교체": 6,
-        "📚 교육 강화": 7,
-        "🧘 그냥 기다린다": 2
-    }
-
-    selected_org_strategy = st.radio("내부 문제를 해결할 전략을 선택하세요:", list(org_issues.keys()))
-
-    if st.button("전략 확정"):
-        st.session_state.selected_strategy = selected_org_strategy
-        st.session_state.score += org_issues[selected_org_strategy]
-        st.session_state.step = 8
-        st.rerun()
-# ✅ Step 8: 돌발 변수 등장
-elif st.session_state.step == 8:
-    show_speech("“뜻밖의 일이 벌어졌어!”", "외부 변수로 인해 경영환경이 크게 흔들리고 있어.", "https://raw.githubusercontent.com/dddowobbb/16-1/main/talking%20ceo.png")
-
-    st.markdown("### Step 8: 돌발 변수 등장")
-
-    random_events = {
-        "📉 글로벌 경제 불황": {
-            "options": ["비용 절감", "내수 시장 집중", "긴축 재정 운영", "신사업 보류", "시장 철수"],
-            "best": "내수 시장 집중"
-        },
-        "🚀 경쟁사의 혁신 제품 발표": {
-            "options": ["기술 개발 가속", "브랜드 리뉴얼", "마케팅 강화", "가격 인하", "특허 소송"],
-            "best": "기술 개발 가속"
-        },
-        "📜 정부 규제 강화": {
-            "options": ["법무팀 확대", "규제 준수 시스템 강화", "비즈니스 모델 전환", "로비 활동 강화", "해외 진출 모색"],
-            "best": "규제 준수 시스템 강화"
-        }
-    }
-
-    if "event_8" not in st.session_state:
-        event_name, event_info = random.choice(list(random_events.items()))
-        st.session_state.event_8 = event_name
-        st.session_state.event_8_options = event_info["options"]
-        st.session_state.event_8_best = event_info["best"]
-
-    st.markdown(f"**🌀 이벤트:** {st.session_state.event_8}")
-    selected_event_strategy = st.radio("✅ 어떤 전략으로 대응할까요?", st.session_state.event_8_options)
-
-    if st.button("전략 확정"):
-        st.session_state.selected_strategy = selected_event_strategy
-        if selected_event_strategy == st.session_state.event_8_best:
-            st.session_state.score += 10
-        else:
-            st.session_state.score += 5
-        del st.session_state["event_8"]
-        del st.session_state["event_8_options"]
-        del st.session_state["event_8_best"]
-        st.session_state.step = 9
-        st.rerun()
-
-
-
-
