@@ -350,7 +350,7 @@ elif st.session_state.step == 8:
         del st.session_state["event_8_options"]
         del st.session_state["event_8_best"]
         st.session_state.step = 9
-        st.rerun() 
+        st.rerun()
 
 
 
